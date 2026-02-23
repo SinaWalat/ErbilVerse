@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --bg-dark: #050714;
+  --primary: #11173b;
+  --primary-light: #1e285d;
+  --secondary: #7a553a;
+  --secondary-light: #9d6d4a;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.08);
+  --glass-bg: rgba(17, 23, 59, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg-dark);
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(17, 23, 59, 0.6), transparent 40%),
+    radial-gradient(circle at 85% 30%, rgba(122, 85, 58, 0.15), transparent 40%);
+  color: var(--text-main);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.font-outfit {
+  font-family: 'Outfit', sans-serif;
+}
+
+/* Base Utility Classes */
+.glass-panel {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #d4a373 0%, var(--secondary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.container-custom {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 5%;
+}
+
+
+
+/* Subtle grid overlay for the 'digital layer' feel */
+.bg-grid-pattern {
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+  z-index: -1;
+  pointer-events: none;
+}

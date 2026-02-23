@@ -1,0 +1,234 @@
+.preloader-screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+    /* Dark background to match hero */
+    z-index: 9999;
+}
+
+.preloader-logo-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 450px;
+    padding: 2rem;
+}
+
+.preloader-logo-container svg {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+}
+
+.preloader-logo-container .cls-1,
+.preloader-logo-container .cls-2 {
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+    opacity: 0;
+    transform: translateY(15px) scale(0.95);
+    transform-origin: center;
+    filter: blur(8px);
+    fill: #ffffff;
+    animation: preloaderAssemble 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* 1. CREST LOGO (Elements 39-47) - Animates First */
+.preloader-logo-container svg>*:nth-child(39) {
+    animation-delay: 0.10s;
+}
+
+.preloader-logo-container svg>*:nth-child(40) {
+    animation-delay: 0.15s;
+}
+
+.preloader-logo-container svg>*:nth-child(41) {
+    animation-delay: 0.20s;
+}
+
+.preloader-logo-container svg>*:nth-child(42) {
+    animation-delay: 0.25s;
+}
+
+.preloader-logo-container svg>*:nth-child(43) {
+    animation-delay: 0.30s;
+}
+
+.preloader-logo-container svg>*:nth-child(44) {
+    animation-delay: 0.35s;
+}
+
+.preloader-logo-container svg>*:nth-child(45) {
+    animation-delay: 0.40s;
+}
+
+.preloader-logo-container svg>*:nth-child(46) {
+    animation-delay: 0.45s;
+}
+
+.preloader-logo-container svg>*:nth-child(47) {
+    animation-delay: 0.50s;
+}
+
+/* 2. ERBILVERSE MAIN TEXT (Elements 2-11) - Animates Second */
+.preloader-logo-container svg>*:nth-child(2) {
+    animation-delay: 0.70s;
+}
+
+.preloader-logo-container svg>*:nth-child(3) {
+    animation-delay: 0.74s;
+}
+
+.preloader-logo-container svg>*:nth-child(4) {
+    animation-delay: 0.78s;
+}
+
+.preloader-logo-container svg>*:nth-child(5) {
+    animation-delay: 0.82s;
+}
+
+.preloader-logo-container svg>*:nth-child(6) {
+    animation-delay: 0.86s;
+}
+
+.preloader-logo-container svg>*:nth-child(7) {
+    animation-delay: 0.90s;
+}
+
+.preloader-logo-container svg>*:nth-child(8) {
+    animation-delay: 0.94s;
+}
+
+.preloader-logo-container svg>*:nth-child(9) {
+    animation-delay: 0.98s;
+}
+
+.preloader-logo-container svg>*:nth-child(10) {
+    animation-delay: 1.02s;
+}
+
+.preloader-logo-container svg>*:nth-child(11) {
+    animation-delay: 1.06s;
+}
+
+/* 3. SUBTEXT "The Digital Layer..." (Elements 12-38) - Animates Third */
+.preloader-logo-container svg>*:nth-child(12) {
+    animation-delay: 1.20s;
+}
+
+.preloader-logo-container svg>*:nth-child(13) {
+    animation-delay: 1.22s;
+}
+
+.preloader-logo-container svg>*:nth-child(14) {
+    animation-delay: 1.24s;
+}
+
+.preloader-logo-container svg>*:nth-child(15) {
+    animation-delay: 1.26s;
+}
+
+.preloader-logo-container svg>*:nth-child(16) {
+    animation-delay: 1.28s;
+}
+
+.preloader-logo-container svg>*:nth-child(17) {
+    animation-delay: 1.30s;
+}
+
+.preloader-logo-container svg>*:nth-child(18) {
+    animation-delay: 1.32s;
+}
+
+.preloader-logo-container svg>*:nth-child(19) {
+    animation-delay: 1.34s;
+}
+
+.preloader-logo-container svg>*:nth-child(20) {
+    animation-delay: 1.36s;
+}
+
+.preloader-logo-container svg>*:nth-child(21) {
+    animation-delay: 1.38s;
+}
+
+.preloader-logo-container svg>*:nth-child(22) {
+    animation-delay: 1.40s;
+}
+
+.preloader-logo-container svg>*:nth-child(23) {
+    animation-delay: 1.42s;
+}
+
+.preloader-logo-container svg>*:nth-child(24) {
+    animation-delay: 1.44s;
+}
+
+.preloader-logo-container svg>*:nth-child(25) {
+    animation-delay: 1.46s;
+}
+
+.preloader-logo-container svg>*:nth-child(26) {
+    animation-delay: 1.48s;
+}
+
+.preloader-logo-container svg>*:nth-child(27) {
+    animation-delay: 1.50s;
+}
+
+.preloader-logo-container svg>*:nth-child(28) {
+    animation-delay: 1.52s;
+}
+
+.preloader-logo-container svg>*:nth-child(29) {
+    animation-delay: 1.54s;
+}
+
+.preloader-logo-container svg>*:nth-child(30) {
+    animation-delay: 1.56s;
+}
+
+.preloader-logo-container svg>*:nth-child(31) {
+    animation-delay: 1.58s;
+}
+
+.preloader-logo-container svg>*:nth-child(32) {
+    animation-delay: 1.60s;
+}
+
+.preloader-logo-container svg>*:nth-child(33) {
+    animation-delay: 1.62s;
+}
+
+.preloader-logo-container svg>*:nth-child(34) {
+    animation-delay: 1.64s;
+}
+
+.preloader-logo-container svg>*:nth-child(35) {
+    animation-delay: 1.66s;
+}
+
+.preloader-logo-container svg>*:nth-child(36) {
+    animation-delay: 1.68s;
+}
+
+.preloader-logo-container svg>*:nth-child(37) {
+    animation-delay: 1.70s;
+}
+
+.preloader-logo-container svg>*:nth-child(38) {
+    animation-delay: 1.72s;
+}
+
+@keyframes preloaderAssemble {
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+    }
+}
