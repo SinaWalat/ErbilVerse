@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'motion/react';
 
 const Card = ({ title, description, badge, children, icon }) => (
@@ -43,25 +43,86 @@ const ScrubbedWord = ({ word, index, total, progress, range, color }) => {
 
 const HorizontalSection = () => {
     const targetRef = useRef(null);
+    const containerRef = useRef(null);
+    const [scrollRange, setScrollRange] = useState(0);
+
+    useEffect(() => {
+        if (!containerRef.current) return;
+
+        const updateRange = () => {
+            if (containerRef.current) {
+                const scrollWidth = containerRef.current.scrollWidth;
+                const viewportWidth = window.innerWidth;
+                setScrollRange(-(scrollWidth - viewportWidth));
+            }
+        };
+
+        const resizeObserver = new ResizeObserver(() => updateRange());
+        resizeObserver.observe(containerRef.current);
+
+        // Initial call
+        updateRange();
+
+        // Also listen to window resize as a fallback
+        window.addEventListener("resize", updateRange);
+
+        // Small delay to recalculate after fonts/layout settle
+        const timeout = setTimeout(updateRange, 500);
+
+        return () => {
+            resizeObserver.disconnect();
+            window.removeEventListener("resize", updateRange);
+            clearTimeout(timeout);
+        };
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: targetRef,
         offset: ["start start", "end end"]
     });
 
-    // We start moving horizontally only after the intro text has revealed (around 0.2 progress)
-    const x = useTransform(scrollYProgress, [0.15, 1], ["0%", "-62%"]);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
+
+    // The horizontal track now spans from 0.25 to 1, giving the intro a dedicated scroll phase
+    const x = useTransform(scrollYProgress, isMobile ? [0.2, 1] : [0.25, 1], [0, scrollRange]);
+
+    // Timings objects for responsive mappings stretched over the taller track
+    const timings = {
+        // Text reveals happen exclusively from [0, 0.15]
+        introLabel: [0, 0.05],
+        headline: [0.02, 0.1],
+        line: [0.05, 0.12],
+        description: [0.05, 0.15],
+
+        // Cards start appearing/moving exclusively after the text phase
+        card1: isMobile ? [0.2, 0.35] : [0.25, 0.4],
+        card2: isMobile ? [0.4, 0.55] : [0.45, 0.6],
+        card3: isMobile ? [0.6, 0.75] : [0.65, 0.8],
+        card4: isMobile ? [0.8, 0.95] : [0.85, 1],
+    };
 
     const headlineWords = "Digital Urbanism.".split(" ");
     const introLabel = "The Platform Ecosystem".split(" ");
     const descriptionWords = "Discover the layers that make ErbilVerse a living digital city.".split(" ");
 
     return (
-        <section ref={targetRef} className="relative h-[450vh] bg-white">
+        <section ref={targetRef} className="relative h-[400vh] bg-white">
             <div className="sticky top-0 h-screen flex items-center overflow-hidden">
-                <motion.div style={{ x }} className="flex items-center px-[5vw] md:px-[10vw]">
+                {/* 
+                    We apply padding-right to the motion.div to give the final card breathing room,
+                    and its scrollWidth will naturally include this padding.
+                */}
+                <motion.div ref={containerRef} style={{ x }} className="flex items-center pl-[10vw] pr-[5vw] md:pr-[10vw]">
 
                     {/* Intro Card */}
-                    <div className="min-w-[70vw] md:min-w-[35vw] flex flex-col justify-center pr-12 md:pr-20">
+                    <div className="w-[85vw] md:w-[40vw] flex flex-col justify-center shrink-0 pr-6 md:pr-12">
                         <div className="text-[#74573e] uppercase tracking-[0.4em] font-bold text-[10px] mb-6 block">
                             {introLabel.map((word, i) => (
                                 <ScrubbedWord
@@ -70,13 +131,13 @@ const HorizontalSection = () => {
                                     index={i}
                                     total={introLabel.length}
                                     progress={scrollYProgress}
-                                    range={[0, 0.05]}
+                                    range={timings.introLabel}
                                     color="#74573e"
                                 />
                             ))}
                         </div>
 
-                        <h2 className="text-5xl md:text-7xl font-bold tracking-tighter leading-[0.95] mb-8">
+                        <h2 className="text-[2.75rem] leading-[1] md:text-7xl font-bold tracking-tighter md:leading-[0.95] mb-6 md:mb-8">
                             {headlineWords.map((word, i) => (
                                 <ScrubbedWord
                                     key={i}
@@ -84,7 +145,7 @@ const HorizontalSection = () => {
                                     index={i}
                                     total={headlineWords.length}
                                     progress={scrollYProgress}
-                                    range={[0.02, 0.12]}
+                                    range={timings.headline}
                                     color="#111638"
                                 />
                             ))}
@@ -92,7 +153,7 @@ const HorizontalSection = () => {
 
                         <motion.div
                             style={{
-                                scaleX: useTransform(scrollYProgress, [0.1, 0.15], [0, 1]),
+                                scaleX: useTransform(scrollYProgress, timings.line, [0, 1]),
                                 originX: 0
                             }}
                             className="w-16 h-1 bg-[#74573e] mb-8"
@@ -106,7 +167,7 @@ const HorizontalSection = () => {
                                     index={i}
                                     total={descriptionWords.length}
                                     progress={scrollYProgress}
-                                    range={[0.1, 0.2]}
+                                    range={timings.description}
                                     color="#11163880"
                                 />
                             ))}
@@ -116,9 +177,9 @@ const HorizontalSection = () => {
                     {/* Card 1: City Map Screen */}
                     <motion.div
                         style={{
-                            opacity: useTransform(scrollYProgress, [0.15, 0.25], [0, 1]),
-                            filter: useTransform(scrollYProgress, [0.15, 0.25], ["blur(15px)", "blur(0px)"]),
-                            y: useTransform(scrollYProgress, [0.15, 0.25], [30, 0])
+                            opacity: useTransform(scrollYProgress, timings.card1, [0, 1]),
+                            filter: useTransform(scrollYProgress, timings.card1, ["blur(15px)", "blur(0px)"]),
+                            y: useTransform(scrollYProgress, timings.card1, [30, 0])
                         }}
                     >
                         <Card
@@ -143,9 +204,9 @@ const HorizontalSection = () => {
                     {/* Card 2: Digital Market Screen */}
                     <motion.div
                         style={{
-                            opacity: useTransform(scrollYProgress, [0.3, 0.4], [0, 1]),
-                            filter: useTransform(scrollYProgress, [0.3, 0.4], ["blur(15px)", "blur(0px)"]),
-                            y: useTransform(scrollYProgress, [0.3, 0.4], [30, 0])
+                            opacity: useTransform(scrollYProgress, timings.card2, [0, 1]),
+                            filter: useTransform(scrollYProgress, timings.card2, ["blur(15px)", "blur(0px)"]),
+                            y: useTransform(scrollYProgress, timings.card2, [30, 0])
                         }}
                     >
                         <Card
@@ -170,9 +231,9 @@ const HorizontalSection = () => {
                     {/* Card 3: Developer Screen */}
                     <motion.div
                         style={{
-                            opacity: useTransform(scrollYProgress, [0.45, 0.55], [0, 1]),
-                            filter: useTransform(scrollYProgress, [0.45, 0.55], ["blur(15px)", "blur(0px)"]),
-                            y: useTransform(scrollYProgress, [0.45, 0.55], [30, 0])
+                            opacity: useTransform(scrollYProgress, timings.card3, [0, 1]),
+                            filter: useTransform(scrollYProgress, timings.card3, ["blur(15px)", "blur(0px)"]),
+                            y: useTransform(scrollYProgress, timings.card3, [30, 0])
                         }}
                     >
                         <Card
@@ -197,9 +258,9 @@ const HorizontalSection = () => {
                     {/* Card 4: Transparency Screen */}
                     <motion.div
                         style={{
-                            opacity: useTransform(scrollYProgress, [0.6, 0.7], [0, 1]),
-                            filter: useTransform(scrollYProgress, [0.6, 0.7], ["blur(15px)", "blur(0px)"]),
-                            y: useTransform(scrollYProgress, [0.6, 0.7], [30, 0])
+                            opacity: useTransform(scrollYProgress, timings.card4, [0, 1]),
+                            filter: useTransform(scrollYProgress, timings.card4, ["blur(15px)", "blur(0px)"]),
+                            y: useTransform(scrollYProgress, timings.card4, [30, 0])
                         }}
                     >
                         <Card
@@ -220,9 +281,6 @@ const HorizontalSection = () => {
                             </div>
                         </Card>
                     </motion.div>
-
-                    {/* Outro Spacer */}
-                    <div className="min-w-[20vw]"></div>
 
                 </motion.div>
             </div>
