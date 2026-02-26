@@ -29,8 +29,8 @@ import { X, Minus, Plus, Locate, Maximize, Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const defaultStyles = {
-  dark: "https://tiles.stadiamaps.com/styles/alidade_smooth_dark.json",
-  light: "https://tiles.stadiamaps.com/styles/alidade_smooth.json",
+  dark: "https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json",
+  light: "https://basemaps.cartocdn.com/gl/positron-gl-style/style.json",
 };
 
 // Check document class for theme (works with next-themes, etc.)

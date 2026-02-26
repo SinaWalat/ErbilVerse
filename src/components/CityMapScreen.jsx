@@ -64,16 +64,24 @@ const InteractiveMapEffects = () => {
 
         map.on('style.load', () => {
             const layers = map.getStyle().layers;
-            // Check if building layer exists to extrude
-            const hasBuildingLayer = layers.some(l => l.id.includes('building'));
+            const sources = map.getStyle().sources;
 
-            if (hasBuildingLayer && !map.getLayer('3d-buildings')) {
-                const buildingLayerID = layers.find(l => l.id.includes('building')).id;
+            // Find a vector source that contains a 'building' layer
+            // This is common in OpenMapTiles-based styles like CartoDB or OpenFreeMap
+            let buildingSource = null;
+            let buildingLayerName = 'building';
+
+            // Check if there's an explicit 'building' layer in the style we can use for extrusion
+            const buildingLayer = layers.find(l => l.id.includes('building') || l['source-layer'] === 'building');
+
+            if (buildingLayer && !map.getLayer('3d-buildings')) {
+                const sourceId = buildingLayer.source;
+
                 try {
                     map.addLayer(
                         {
                             'id': '3d-buildings',
-                            'source': 'composite',
+                            'source': sourceId,
                             'source-layer': 'building',
                             'filter': ['==', 'extrude', 'true'],
                             'type': 'fill-extrusion',
@@ -101,9 +109,9 @@ const InteractiveMapEffects = () => {
                                 'fill-extrusion-opacity': 0.6
                             }
                         },
-                        buildingLayerID
+                        buildingLayer.id
                     );
-                } catch (e) { /* composite source might not exist for some styles, ignore */ }
+                } catch (e) { console.warn("Failed to add 3D building layer:", e); }
             }
         });
     }, [map]);
