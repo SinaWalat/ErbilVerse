@@ -5,7 +5,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #000000;
+    background-color: #111638;
     /* Dark background to match hero */
     z-index: 9999;
 }
@@ -22,7 +22,7 @@
 
 .preloader-logo-container svg {
     width: 100%;
-    max-width: 280px;
+    max-width: 200px;
     height: auto;
 }
 

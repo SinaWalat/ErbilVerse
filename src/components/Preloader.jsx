@@ -44,7 +44,7 @@ const Preloader = ({ onComplete }) => {
                     left: 0,
                     right: 0,
                     height: '50%',
-                    background: '#000000',
+                    background: '#111638',
                     zIndex: 2,
                 }}
                 animate={phase === 'revealing' ? { y: '-100%' } : { y: 0 }}
@@ -59,7 +59,7 @@ const Preloader = ({ onComplete }) => {
                     left: 0,
                     right: 0,
                     height: '50%',
-                    background: '#000000',
+                    background: '#111638',
                     zIndex: 2,
                 }}
                 animate={phase === 'revealing' ? { y: '100%' } : { y: 0 }}

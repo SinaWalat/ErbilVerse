@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useTransform } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import FullScreenMenu from './FullScreenMenu';
 
@@ -110,11 +110,18 @@ const HeroContent = React.memo(({ ready }) => (
 
 HeroContent.displayName = 'HeroContent';
 
-const HeroPage = ({ ready = true }) => {
+const HeroPage = ({ ready = true, progress }) => {
     const [menuOpen, setMenuOpen] = useState(false);
 
+    // Global timeline transforms (Phase 1: 0.0 -> 0.15)
+    // The user requested for the hero to stay completely pinned and just fade out cleanly
+    const heroOpacity = progress ? useTransform(progress, [0, 0.15], [1, 0]) : 1;
+
     return (
-        <div className="relative min-h-screen w-full overflow-hidden bg-[#000] font-sans selection:bg-[#75573f] selection:text-white flex flex-col">
+        <motion.div
+            style={{ opacity: heroOpacity }}
+            className="relative min-h-screen w-full overflow-hidden bg-[#111638] font-sans selection:bg-[#75573f] selection:text-white flex flex-col"
+        >
             {/* Background Layer (Video) */}
             <div className="absolute inset-0 z-0">
                 <video
@@ -125,9 +132,9 @@ const HeroPage = ({ ready = true }) => {
                     muted
                     playsInline
                 />
-                <div className="absolute inset-0 bg-[#000]/40 pointer-events-none"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-[#000]/60 via-[#000]/30 to-[#000]/80 pointer-events-none"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_25%,rgba(0,0,0,0.85)_100%)] pointer-events-none"></div>
+                <div className="absolute inset-0 bg-[#111638]/40 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-[#111638]/60 via-[#111638]/30 to-[#111638]/80 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_25%,rgba(17,22,56,0.85)_100%)] pointer-events-none"></div>
             </div>
 
             {/* Navigation */}
@@ -164,8 +171,8 @@ const HeroPage = ({ ready = true }) => {
 
             <HeroContent ready={ready} />
 
-            <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#000] to-transparent pointer-events-none z-20"></div>
-        </div>
+            <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-[#111638] to-transparent pointer-events-none z-20"></div>
+        </motion.div>
     );
 };
 

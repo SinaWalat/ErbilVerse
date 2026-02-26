@@ -3,8 +3,8 @@ import { motion } from 'motion/react';
 
 const Footer = () => {
     return (
-        <footer className="w-full bg-[#111638] font-sans border-t border-white/5">
-            <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-24 py-12 md:py-16">
+        <footer className="w-full bg-[#111638] font-sans border-t border-white/5 relative z-30">
+            <div className="max-w-[1600px] w-full mx-auto px-6 md:px-12 lg:px-24 py-12 md:py-16">
 
                 {/* Top Section */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 md:mb-24 gap-8">

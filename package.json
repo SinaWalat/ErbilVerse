@@ -9,16 +9,25 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mapbox/mapbox-gl-rtl-text": "^0.3.0",
+    "@number-flow/react": "^0.5.14",
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "hls.js": "^1.5.18",
     "lucide-react": "^0.575.0",
+    "maplibre-gl": "^5.19.0",
     "motion": "^11.18.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "recharts": "^3.7.0",
+    "tailwind-merge": "^3.5.0",
+    "tailwindcss-animate": "^1.0.7",
     "three": "^0.183.1"
   },
   "devDependencies": {
+    "@types/node": "^25.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.19",
     "ffmpeg-static": "^5.3.0",

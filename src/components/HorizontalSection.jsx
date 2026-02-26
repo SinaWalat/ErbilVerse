@@ -41,8 +41,7 @@ const ScrubbedWord = ({ word, index, total, progress, range, color }) => {
     );
 };
 
-const HorizontalSection = () => {
-    const targetRef = useRef(null);
+const HorizontalSection = ({ progress }) => {
     const containerRef = useRef(null);
     const [scrollRange, setScrollRange] = useState(0);
 
@@ -76,11 +75,6 @@ const HorizontalSection = () => {
         };
     }, []);
 
-    const { scrollYProgress } = useScroll({
-        target: targetRef,
-        offset: ["start start", "end end"]
-    });
-
     const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
@@ -90,31 +84,35 @@ const HorizontalSection = () => {
         return () => window.removeEventListener("resize", checkMobile);
     }, []);
 
-    // The horizontal track now spans from 0.25 to 1, giving the intro a dedicated scroll phase
-    const x = useTransform(scrollYProgress, isMobile ? [0.2, 1] : [0.25, 1], [0, scrollRange]);
+    // Generate a local progress for the horizontal sequence that only starts AFTER 
+    // the global progress reaches 0.55 (when SecondSection is done dissolving)
+    const localProgress = useTransform(progress, [0.55, 1], [0, 1]);
 
-    // Timings objects for responsive mappings stretched over the taller track
+    const x = useTransform(localProgress, isMobile ? [0.2, 1] : [0.25, 1], [0, scrollRange]);
+
+    // Timings objects for responsive mappings stretched over the horizontal track
     const timings = {
-        // Text reveals happen exclusively from [0, 0.15]
-        introLabel: [0, 0.05],
-        headline: [0.02, 0.1],
-        line: [0.05, 0.12],
-        description: [0.05, 0.15],
+        introLabel: [0.05, 0.1],
+        headline: [0.08, 0.15],
+        line: [0.1, 0.15],
+        description: [0.1, 0.18],
 
-        // Cards start appearing/moving exclusively after the text phase
-        card1: isMobile ? [0.2, 0.35] : [0.25, 0.4],
-        card2: isMobile ? [0.4, 0.55] : [0.45, 0.6],
-        card3: isMobile ? [0.6, 0.75] : [0.65, 0.8],
-        card4: isMobile ? [0.8, 0.95] : [0.85, 1],
+        card1: isMobile ? [0.25, 0.4] : [0.3, 0.45],
+        card2: isMobile ? [0.45, 0.6] : [0.5, 0.65],
+        card3: isMobile ? [0.65, 0.8] : [0.7, 0.85],
+        card4: isMobile ? [0.85, 1.0] : [0.9, 1.0],
     };
 
     const headlineWords = "Digital Urbanism.".split(" ");
     const introLabel = "The Platform Ecosystem".split(" ");
     const descriptionWords = "Discover the layers that make ErbilVerse a living digital city.".split(" ");
 
+    // Fade the white background in as the entire global track transitions from 0.5 to 0.55
+    const sectionOpacity = useTransform(progress, [0.5, 0.55], [0, 1]);
+
     return (
-        <section ref={targetRef} className="relative h-[400vh] bg-white">
-            <div className="sticky top-0 h-screen flex items-center overflow-hidden">
+        <section className="relative h-full w-full">
+            <motion.div style={{ opacity: sectionOpacity }} className="h-full w-full flex items-center overflow-hidden bg-white">
                 {/* 
                     We apply padding-right to the motion.div to give the final card breathing room,
                     and its scrollWidth will naturally include this padding.
@@ -130,7 +128,7 @@ const HorizontalSection = () => {
                                     word={word}
                                     index={i}
                                     total={introLabel.length}
-                                    progress={scrollYProgress}
+                                    progress={localProgress}
                                     range={timings.introLabel}
                                     color="#74573e"
                                 />
@@ -144,7 +142,7 @@ const HorizontalSection = () => {
                                     word={word}
                                     index={i}
                                     total={headlineWords.length}
-                                    progress={scrollYProgress}
+                                    progress={localProgress}
                                     range={timings.headline}
                                     color="#111638"
                                 />
@@ -153,7 +151,7 @@ const HorizontalSection = () => {
 
                         <motion.div
                             style={{
-                                scaleX: useTransform(scrollYProgress, timings.line, [0, 1]),
+                                scaleX: useTransform(localProgress, timings.line, [0, 1]),
                                 originX: 0
                             }}
                             className="w-16 h-1 bg-[#74573e] mb-8"
@@ -166,7 +164,7 @@ const HorizontalSection = () => {
                                     word={word}
                                     index={i}
                                     total={descriptionWords.length}
-                                    progress={scrollYProgress}
+                                    progress={localProgress}
                                     range={timings.description}
                                     color="#11163880"
                                 />
@@ -177,9 +175,9 @@ const HorizontalSection = () => {
                     {/* Card 1: City Map Screen */}
                     <motion.div
                         style={{
-                            opacity: useTransform(scrollYProgress, timings.card1, [0, 1]),
-                            filter: useTransform(scrollYProgress, timings.card1, ["blur(15px)", "blur(0px)"]),
-                            y: useTransform(scrollYProgress, timings.card1, [30, 0])
+                            opacity: useTransform(localProgress, timings.card1, [0, 1]),
+                            filter: useTransform(localProgress, timings.card1, ["blur(15px)", "blur(0px)"]),
+                            y: useTransform(localProgress, timings.card1, [30, 0])
                         }}
                     >
                         <Card
@@ -204,9 +202,9 @@ const HorizontalSection = () => {
                     {/* Card 2: Digital Market Screen */}
                     <motion.div
                         style={{
-                            opacity: useTransform(scrollYProgress, timings.card2, [0, 1]),
-                            filter: useTransform(scrollYProgress, timings.card2, ["blur(15px)", "blur(0px)"]),
-                            y: useTransform(scrollYProgress, timings.card2, [30, 0])
+                            opacity: useTransform(localProgress, timings.card2, [0, 1]),
+                            filter: useTransform(localProgress, timings.card2, ["blur(15px)", "blur(0px)"]),
+                            y: useTransform(localProgress, timings.card2, [30, 0])
                         }}
                     >
                         <Card
@@ -231,9 +229,9 @@ const HorizontalSection = () => {
                     {/* Card 3: Developer Screen */}
                     <motion.div
                         style={{
-                            opacity: useTransform(scrollYProgress, timings.card3, [0, 1]),
-                            filter: useTransform(scrollYProgress, timings.card3, ["blur(15px)", "blur(0px)"]),
-                            y: useTransform(scrollYProgress, timings.card3, [30, 0])
+                            opacity: useTransform(localProgress, timings.card3, [0, 1]),
+                            filter: useTransform(localProgress, timings.card3, ["blur(15px)", "blur(0px)"]),
+                            y: useTransform(localProgress, timings.card3, [30, 0])
                         }}
                     >
                         <Card
@@ -258,9 +256,9 @@ const HorizontalSection = () => {
                     {/* Card 4: Transparency Screen */}
                     <motion.div
                         style={{
-                            opacity: useTransform(scrollYProgress, timings.card4, [0, 1]),
-                            filter: useTransform(scrollYProgress, timings.card4, ["blur(15px)", "blur(0px)"]),
-                            y: useTransform(scrollYProgress, timings.card4, [30, 0])
+                            opacity: useTransform(localProgress, timings.card4, [0, 1]),
+                            filter: useTransform(localProgress, timings.card4, ["blur(15px)", "blur(0px)"]),
+                            y: useTransform(localProgress, timings.card4, [30, 0])
                         }}
                     >
                         <Card
@@ -283,7 +281,7 @@ const HorizontalSection = () => {
                     </motion.div>
 
                 </motion.div>
-            </div>
+            </motion.div>
         </section>
     );
 };
