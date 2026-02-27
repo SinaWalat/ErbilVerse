@@ -26,7 +26,7 @@ const TransparencySecurityScreen = () => {
     ];
 
     return (
-        <section className="relative w-full py-32 md:py-48 bg-[#fcfcfc] text-[#111638] overflow-hidden flex flex-col font-sans border-t border-[#111638]/5">
+        <section className="relative w-full py-32 md:py-48 bg-[#fcfcfc] text-[#111638] overflow-hidden flex flex-col border-t border-[#111638]/5">
             <div className="max-w-[1600px] mx-auto w-full px-6 flex flex-col items-center">
 
                 {/* Grand Symmetrical Header */}
@@ -38,9 +38,9 @@ const TransparencySecurityScreen = () => {
                     className="flex flex-col items-center text-center mb-24 max-w-3xl"
                 >
                     <span className="w-1 px-8 py-px bg-[#74573e] mb-8 block" />
-                    <h2 className="text-5xl md:text-7xl font-light tracking-tight text-[#111638] leading-[1.1] mb-8">
+                    <h2 className="text-5xl md:text-7xl tracking-tight text-[#111638] leading-[1.1] mb-8 font-medium">
                         Transparency<br />
-                        <span className="font-semibold">Built In</span>
+                        <span className="">Built In</span>
                     </h2>
                     <p className="text-xl text-zinc-500 font-light leading-relaxed max-w-2xl mx-auto">
                         The platform operates on a foundation of absolute clarity and confidence. Every action is verifiable to maintain a secure digital environment.
@@ -70,7 +70,7 @@ const TransparencySecurityScreen = () => {
 
                             {/* Text Content */}
                             <div className="flex flex-col flex-1 text-center relative z-10 items-center">
-                                <h3 className="text-2xl font-semibold text-[#111638] mb-4 tracking-tight">{pillar.title}</h3>
+                                <h3 className="text-2xl font-medium text-[#111638] mb-4 tracking-tight">{pillar.title}</h3>
                                 <div className="w-12 h-1 bg-zinc-200 mb-6 group-hover:bg-[#74573e] transition-colors duration-500" />
                                 <p className="text-sm text-zinc-500 leading-relaxed font-medium">
                                     {pillar.desc}

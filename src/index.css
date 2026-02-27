@@ -1,4 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap');
+@font-face {
+  font-family: 'Lazare Grotesk';
+  src: url('/EV-Font/LazareGrotesk-Light.woff2') format('woff2'),
+    url('/EV-Font/LazareGrotesk-Light.woff') format('woff'),
+    url('/EV-Font/LazareGrotesk-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Lazare Grotesk';
+  src: url('/EV-Font/LazareGrotesk-Medium.woff2') format('woff2'),
+    url('/EV-Font/LazareGrotesk-Medium.woff') format('woff'),
+    url('/EV-Font/LazareGrotesk-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+}
 
 @tailwind base;
 @tailwind components;
@@ -34,7 +50,8 @@ body {
     radial-gradient(circle at 15% 50%, rgba(17, 23, 59, 0.6), transparent 40%),
     radial-gradient(circle at 85% 30%, rgba(122, 85, 58, 0.15), transparent 40%);
   color: var(--text-main);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Lazare Grotesk', sans-serif;
+  font-weight: 300;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
@@ -45,8 +62,9 @@ h3,
 h4,
 h5,
 h6,
-.font-outfit {
-  font-family: 'Outfit', sans-serif;
+.font-title {
+  font-family: 'Lazare Grotesk', sans-serif;
+  font-weight: 500;
 }
 
 /* Base Utility Classes */

@@ -57,10 +57,10 @@ const HeroContent = React.memo(({ ready }) => (
         <motion.div className="flex flex-col items-center text-center w-full relative">
             <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-500/10 blur-[150px] rounded-[100%] pointer-events-none -z-10"></div>
 
-            <h1 className="text-[4rem] md:text-[6.5rem] lg:text-[7.5rem] font-bold tracking-tight text-white leading-[0.9] mb-6 drop-shadow-lg max-w-5xl relative flex flex-col items-center">
+            <h1 className="text-[4rem] md:text-[6.5rem] lg:text-[7.5rem] font-medium tracking-tight text-white leading-[0.9] mb-6 drop-shadow-lg max-w-5xl relative flex flex-col items-center">
                 <span className="block">
                     <SplitText
-                        text="ErbilVerse"
+                        text="ERBILVERSE"
                         baseDelay={0.4}
                         stagger={0.04}
                         className="inline-block"
@@ -120,7 +120,7 @@ const HeroPage = ({ ready = true, progress }) => {
     return (
         <motion.div
             style={{ opacity: heroOpacity }}
-            className="relative min-h-screen w-full overflow-hidden bg-[#111638] font-sans selection:bg-[#75573f] selection:text-white flex flex-col"
+            className="relative min-h-screen w-full overflow-hidden bg-[#111638] selection:bg-[#75573f] selection:text-white flex flex-col"
         >
             {/* Background Layer (Video) */}
             <div className="absolute inset-0 z-0">
@@ -159,7 +159,7 @@ const HeroPage = ({ ready = true, progress }) => {
                             animate={{ y: 0, opacity: 1 }}
                             exit={{ y: -15, opacity: 0 }}
                             transition={{ duration: 0.3, ease: [0.76, 0, 0.24, 1] }}
-                            className="absolute text-[13px] font-medium text-white/50 group-hover:text-white transition-colors duration-300 tracking-[0.15em] uppercase"
+                            className="absolute text-[13px] font-light text-white/50 group-hover:text-white transition-colors duration-300 tracking-[0.15em] uppercase"
                         >
                             {menuOpen ? 'Close' : 'Menu'}
                         </motion.span>

@@ -15,7 +15,7 @@ const Navigation = () => {
                     <MapPin color="white" size={20} />
                 </div>
                 <div>
-                    <h1 className="text-xl font-bold font-outfit tracking-wider text-white">ERBIL<span className="text-secondary-light">VERSE</span></h1>
+                    <h1 className="text-xl font-medium tracking-wider text-white">ERBIL<span className="text-secondary-light">VERSE</span></h1>
                     <p className="text-[0.65rem] tracking-[0.2em] text-text-muted uppercase font-light">Digital Layer</p>
                 </div>
             </div>

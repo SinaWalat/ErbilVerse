@@ -46,7 +46,7 @@ const DigitalMarketScreen = () => {
     ];
 
     return (
-        <section className="relative w-full py-32 bg-[#fcfcfc] text-[#111638] overflow-hidden min-h-screen flex items-center justify-center font-sans">
+        <section className="relative w-full py-32 bg-[#fcfcfc] text-[#111638] overflow-hidden min-h-screen flex items-center justify-center">
 
             {/* Route 3 Ambient Background */}
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -75,8 +75,8 @@ const DigitalMarketScreen = () => {
                             </span>
                             <span className="w-8 h-[1px] bg-[#74573e]/40" />
                         </div>
-                        <h2 className="text-4xl md:text-6xl font-light tracking-tight text-[#111638] mb-6 font-outfit">
-                            Live Digital <span className="font-semibold">Market</span>
+                        <h2 className="text-4xl md:text-6xl tracking-tight text-[#111638] mb-6 font-medium">
+                            Live Digital <span className="">Market</span>
                         </h2>
                         <p className="text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed">
                             Monitor real-time valuations, secure transactions, and platform-wide activity in a unified, floating ledger dashboard.
@@ -101,13 +101,13 @@ const DigitalMarketScreen = () => {
                                 24H Trading Volume
                             </span>
                             <div className="flex items-baseline gap-5">
-                                <div className="text-6xl md:text-8xl font-light tracking-tighter text-[#111638] font-outfit flex items-baseline" style={{ lineHeight: 1 }}>
+                                <div className="text-6xl md:text-8xl tracking-tighter text-[#111638] font-medium flex items-baseline" style={{ lineHeight: 1 }}>
                                     <span style={{ lineHeight: 1 }}>$</span>
                                     <NumberFlow
                                         value={tradingVolume}
                                         format={{ minimumFractionDigits: 1, maximumFractionDigits: 1 }}
                                         trend={0}
-                                        className="font-outfit"
+                                        className="font-medium"
                                         style={{ lineHeight: 1 }}
                                     />
                                     <span style={{ lineHeight: 1 }}>M</span>
@@ -150,8 +150,8 @@ const DigitalMarketScreen = () => {
                                                     padding: '6px 12px',
                                                     borderRadius: '8px',
                                                     fontSize: '13px',
-                                                    fontWeight: 600,
-                                                    fontFamily: 'Outfit, sans-serif',
+                                                    fontWeight: 300,
+                                                    fontFamily: '"Lazare Grotesk", sans-serif',
                                                     boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                                                     border: '1px solid rgba(116,87,62,0.3)',
                                                 }}>
@@ -231,8 +231,8 @@ const DigitalMarketScreen = () => {
                                                 </div>
                                             </div>
                                             <div className="text-right flex flex-col items-end">
-                                                <p className="text-lg font-bold text-[#111638] font-outfit">{tx.amount}</p>
-                                                <div className={`text - [10px] font - bold uppercase tracking - wider mt - 1 px - 2 py - 0.5 rounded - sm ${tx.status === 'Completed' ? 'bg-green-100 text-green-700' : tx.status === 'Processing' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'} `}>
+                                                <p className="text-lg font-medium text-[#111638]">{tx.amount}</p>
+                                                <div className={`text - [10px] font - medium uppercase tracking - wider mt - 1 px - 2 py - 0.5 rounded - sm ${tx.status === 'Completed' ? 'bg-green-100 text-green-700' : tx.status === 'Processing' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'} `}>
                                                     {tx.status}
                                                 </div>
                                             </div>

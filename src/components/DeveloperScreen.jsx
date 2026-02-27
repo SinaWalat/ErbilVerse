@@ -39,7 +39,7 @@ const DeveloperScreen = () => {
     ];
 
     return (
-        <section ref={containerRef} className="relative w-full py-32 md:py-48 bg-[#111638] text-white overflow-hidden flex flex-col items-center justify-center font-sans">
+        <section ref={containerRef} className="relative w-full py-32 md:py-48 bg-[#111638] text-white overflow-hidden flex flex-col items-center justify-center">
 
             {/* Elegant Parallax Background Elements */}
             <motion.div style={{ y: yBg }} className="absolute inset-0 pointer-events-none opacity-20">
@@ -60,9 +60,9 @@ const DeveloperScreen = () => {
                         <span className="text-sm font-bold tracking-[0.2em] text-[#74573e] uppercase mb-8 block">
                             Ecosystem Partners
                         </span>
-                        <h2 className="text-5xl md:text-7xl lg:text-8xl font-light tracking-tight text-white leading-none mb-12">
+                        <h2 className="text-5xl md:text-7xl lg:text-8xl tracking-tight text-white leading-none mb-12 font-medium">
                             For <br className="md:hidden" />
-                            <span className="font-semibold text-[#fcfcfc]">Developers</span>
+                            <span className="text-[#fcfcfc]">Developers</span>
                         </h2>
                         <p className="text-xl md:text-2xl text-zinc-400 font-light leading-relaxed mb-16 max-w-3xl mx-auto">
                             A new digital presence inside Erbil’s interactive city layer. Leverage cutting-edge technology to showcase your developments to a global audience.
@@ -104,7 +104,7 @@ const DeveloperScreen = () => {
                                     <span className="text-xs font-bold tracking-widest text-[#74573e] uppercase mb-4 block">
                                         {feature.stat}
                                     </span>
-                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-semibold text-white mb-6 tracking-tight">
+                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-medium text-white mb-6 tracking-tight">
                                         {feature.title}
                                     </h3>
                                     <p className="text-lg text-zinc-400 leading-relaxed font-light max-w-sm">

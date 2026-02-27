@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 
 const Footer = () => {
     return (
-        <footer className="w-full bg-[#111638] font-sans border-t border-white/5 relative z-30">
+        <footer className="w-full bg-[#111638] border-t border-white/5 relative z-30">
             <div className="max-w-[1600px] w-full mx-auto px-6 md:px-12 lg:px-24 py-12 md:py-16">
 
                 {/* Top Section */}
@@ -20,13 +20,13 @@ const Footer = () => {
                     {/* Links grid */}
                     <div className="grid grid-cols-2 gap-x-12 md:gap-x-24 gap-y-4">
                         <div className="flex flex-col gap-3">
-                            <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">Platform</h3>
+                            <h3 className="text-xs font-medium text-white/40 uppercase tracking-widest mb-2">Platform</h3>
                             <a href="#" className="text-sm text-white/80 hover:text-[#eed0b4] transition-colors">Digital Market</a>
                             <a href="#" className="text-sm text-white/80 hover:text-[#eed0b4] transition-colors">Developer Portal</a>
                             <a href="#" className="text-sm text-white/80 hover:text-[#eed0b4] transition-colors">City Map</a>
                         </div>
                         <div className="flex flex-col gap-3">
-                            <h3 className="text-xs font-semibold text-white/40 uppercase tracking-widest mb-2">Company</h3>
+                            <h3 className="text-xs font-medium text-white/40 uppercase tracking-widest mb-2">Company</h3>
                             <a href="#" className="text-sm text-white/80 hover:text-[#eed0b4] transition-colors">About Us</a>
                             <a href="#" className="text-sm text-white/80 hover:text-[#eed0b4] transition-colors">Careers</a>
                             <a href="#" className="text-sm text-white/80 hover:text-[#eed0b4] transition-colors">Contact</a>
@@ -42,7 +42,7 @@ const Footer = () => {
                     transition={{ duration: 0.8 }}
                     className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 gap-4"
                 >
-                    <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] font-medium">
+                    <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] font-light">
                         © {new Date().getFullYear()} Erbilverse. All rights reserved.
                     </p>
 

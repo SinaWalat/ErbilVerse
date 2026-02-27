@@ -10,7 +10,7 @@ const PropertyInformation = () => {
     ];
 
     return (
-        <section className="relative w-full py-32 bg-[#fcfcfc] text-[#111638] overflow-hidden flex justify-center font-sans border-t border-[#111638]/5">
+        <section className="relative w-full py-32 bg-[#fcfcfc] text-[#111638] overflow-hidden flex justify-center border-t border-[#111638]/5">
             <div className="max-w-[1400px] mx-auto w-full px-8 md:px-16 lg:px-24">
 
                 {/* Header Area */}
@@ -28,9 +28,9 @@ const PropertyInformation = () => {
                                 Property Spec Sheet
                             </span>
                         </div>
-                        <h2 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-[#111638] leading-none mb-6">
+                        <h2 className="text-5xl md:text-6xl lg:text-7xl tracking-tight text-[#111638] leading-none mb-6 font-medium">
                             Property<br />
-                            <span className="font-semibold">Overview</span>
+                            <span className="">Overview</span>
                         </h2>
                         <p className="text-zinc-500 text-lg leading-relaxed">
                             Comprehensive data profile and verified structural metrics for the selected twin.
@@ -106,7 +106,7 @@ const PropertyInformation = () => {
                                     <span className="text-xl md:text-2xl font-light text-[#111638] tracking-tight">{item.label}</span>
                                 </div>
                                 <div className="sm:text-right flex items-center gap-6">
-                                    <span className={`text-xl md:text-2xl font-semibold tracking-tight ${item.label === 'Digital Market Value' ? 'text-[#74573e]' : 'text-[#111638]'}`}>
+                                    <span className={`text-xl md:text-2xl font-medium tracking-tight ${item.label === 'Digital Market Value' ? 'text-[#74573e]' : 'text-[#111638]'}`}>
                                         {item.value}
                                     </span>
                                     {/* Minimalist interactive arrow on hover */}
