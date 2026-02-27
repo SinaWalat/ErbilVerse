@@ -14,7 +14,7 @@ const SecondSection = ({ progress }) => {
         <motion.div className="relative w-full h-full font-sans bg-transparent pointer-events-none">
             <div className="h-full w-full flex items-center justify-center overflow-hidden">
                 <div className="max-w-4xl px-6 md:px-12 lg:px-24 mx-auto text-center">
-                    <p className="flex flex-wrap justify-center gap-x-2 md:gap-x-3 lg:gap-x-4 gap-y-1 md:gap-y-2 text-[1.5rem] md:text-[2.5rem] lg:text-[3.5rem] font-bold leading-[1.2] tracking-tight">
+                    <p className="flex flex-wrap justify-center gap-x-2 md:gap-x-3 lg:gap-x-4 gap-y-1 md:gap-y-2 text-[1.5rem] md:text-[2.5rem] lg:text-[3.5rem] font-light leading-[1.2] tracking-tight">
                         {words.map((word, i) => {
                             // Calculate the specific progress range for this word using the *compressed* local progress
                             const textRevealEndProgress = 0.7;
