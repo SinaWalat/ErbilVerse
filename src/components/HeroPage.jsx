@@ -67,7 +67,7 @@ const HeroContent = React.memo(({ ready }) => (
                         ready={ready}
                     />
                 </span>
-                <span className="block text-[2rem] md:text-[3.5rem] lg:text-[4rem] text-[#74573e] mt-2 py-2">
+                <span className="block text-[1.35rem] md:text-[3.5rem] lg:text-[4rem] text-[#74573e] mt-2 py-2">
                     <SplitText
                         text="The Digital Layer of Real Estate"
                         baseDelay={0.8}
