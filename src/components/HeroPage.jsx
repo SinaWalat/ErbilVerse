@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence, useTransform } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import FullScreenMenu from './FullScreenMenu';
+import videoHero from '../VideoHero.mp4';
 
 // Match the preloader character stagger style
 const characterReveal = {
@@ -53,7 +54,7 @@ const SplitText = ({ text, baseDelay, stagger, className, customVariants, ready 
 
 // Memoized content block to prevent re-animations when menu toggles
 const HeroContent = React.memo(({ ready }) => (
-    <main className="flex-1 flex items-center justify-center relative z-10 px-6 md:px-12 lg:px-24">
+    <main className="flex-1 flex items-end justify-center relative z-10 px-6 md:px-12 lg:px-24 pb-24">
         <motion.div className="flex flex-col items-center text-center w-full relative">
             <div className="absolute top-[10%] left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-500/10 blur-[150px] rounded-[100%] pointer-events-none -z-10"></div>
 
@@ -67,7 +68,7 @@ const HeroContent = React.memo(({ ready }) => (
                         ready={ready}
                     />
                 </span>
-                <span className="block text-[1.35rem] md:text-[3.5rem] lg:text-[4rem] text-[#74573e] mt-2 py-2">
+                <span className="block text-[1.35rem] md:text-[3.5rem] lg:text-[4rem] text-white/50 mt-2 py-2">
                     <SplitText
                         text="The Digital Layer of Real Estate"
                         baseDelay={0.8}
@@ -80,7 +81,7 @@ const HeroContent = React.memo(({ ready }) => (
 
             <div className="overflow-hidden mb-12">
                 <motion.p
-                    className="max-w-2xl text-[1.1rem] md:text-[1.25rem] text-white/50 font-light leading-[1.6]"
+                    className="max-w-4xl text-[1.1rem] md:text-[1.25rem] text-white/50 font-light leading-[1.6]"
                     variants={fadeUp}
                     initial={ready ? false : "hidden"}
                     animate={ready ? "visible" : "hidden"}
@@ -126,7 +127,7 @@ const HeroPage = ({ ready = true, progress }) => {
             <div className="absolute inset-0 z-0">
                 <video
                     className="absolute top-0 left-0 w-full h-full object-cover"
-                    src="/Video_pingpong.mp4"
+                    src={videoHero}
                     autoPlay
                     loop
                     muted
