@@ -68,7 +68,7 @@ const HeroContent = React.memo(({ ready }) => (
                         ready={ready}
                     />
                 </span>
-                <span className="block text-[1.35rem] md:text-[3.5rem] lg:text-[4rem] text-white/50 mt-2 py-2">
+                <span className="block text-[1.35rem] md:text-[3.5rem] lg:text-[4rem] text-[#74573e] mt-2 py-2">
                     <SplitText
                         text="The Digital Layer of Real Estate"
                         baseDelay={0.8}
@@ -98,7 +98,7 @@ const HeroContent = React.memo(({ ready }) => (
                 custom={1.4}
                 className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
             >
-                <button className="relative w-full sm:w-auto px-10 py-4 rounded-full bg-[#111638]/60 backdrop-blur-md border border-white/10 hover:border-[#d4a373]/50 text-white font-medium text-[15px] tracking-wide shadow-2xl transition-all duration-500 flex items-center justify-center gap-4 group">
+                <button className="relative w-full sm:w-auto px-10 py-4 rounded-full bg-[#111638]/60 backdrop-blur-md border border-[#74573e] hover:bg-[#74573e] text-white font-medium text-[15px] tracking-wide shadow-2xl transition-all duration-500 flex items-center justify-center gap-4 group">
                     <span className="relative z-10">Enter the City</span>
                     <span className="relative z-10 flex items-center justify-center w-8 h-8 rounded-full bg-white/10 group-hover:bg-[#d4a373] transition-colors duration-500">
                         <ArrowRight className="w-4 h-4 text-white group-hover:text-[#111638] transition-colors duration-500" />
