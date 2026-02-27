@@ -133,9 +133,9 @@ const HeroPage = ({ ready = true, progress }) => {
                     muted
                     playsInline
                 />
-                <div className="absolute inset-0 bg-[#111638]/40 pointer-events-none"></div>
-                <div className="absolute inset-0 bg-gradient-to-b from-[#111638]/60 via-[#111638]/30 to-[#111638]/80 pointer-events-none"></div>
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_25%,rgba(17,22,56,0.85)_100%)] pointer-events-none"></div>
+                <div className="absolute inset-0 bg-[#111638]/20 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-b from-[#111638]/40 via-[#111638]/20 to-[#111638]/60 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_40%,rgba(17,22,56,0.7)_100%)] pointer-events-none"></div>
             </div>
 
             {/* Navigation */}
