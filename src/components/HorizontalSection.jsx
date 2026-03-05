@@ -65,8 +65,8 @@ const HorizontalSection = ({ progress }) => {
     }, []);
 
     // Generate a local progress for the sequence that starts AFTER
-    // the global progress reaches 0.5
-    const localProgress = useTransform(progress, [0.5, 1], [0, 1]);
+    // the global progress reaches 0.65
+    const localProgress = useTransform(progress, [0.65, 1], [0, 1]);
 
     // Timings for stacking sequence - spreading them out more
     const timings = {
@@ -97,8 +97,8 @@ const HorizontalSection = ({ progress }) => {
     const introLabel = "The Platform Ecosystem".split(" ");
     const descriptionWords = "Discover the layers that make ErbilVerse a living digital city.".split(" ");
 
-    // Fade the white background in as the entire global track transitions from 0.45 to 0.5
-    const sectionOpacity = useTransform(progress, [0.45, 0.5], [0, 1]);
+    // Fade the white background in as the entire global track transitions from 0.6 to 0.7
+    const sectionOpacity = useTransform(progress, [0.6, 0.7], [0, 1]);
 
     // Intro section transforms
     const introOpacity = useTransform(localProgress, timings.introFadeOut, [1, 0]);

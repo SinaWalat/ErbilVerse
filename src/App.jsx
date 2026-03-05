@@ -21,15 +21,15 @@ function IntroSequence() {
   });
   const heroProgress = useTransform(scrollYProgress, [0, 0.2], [0, 0.15]);
 
-  // Robust sequencing using z-index and display
+  // Robust sequencing - Giving SecondSection more room
   const heroZ = useTransform(scrollYProgress, [0, 0.2, 0.25], [10, 10, 0]);
   const heroDisplay = useTransform(scrollYProgress, (v) => v < 0.25 ? 'block' : 'none');
 
-  const secondZ = useTransform(scrollYProgress, [0, 0.15, 0.2, 0.5, 0.55], [0, 0, 20, 20, 0]);
-  const secondDisplay = useTransform(scrollYProgress, (v) => v > 0.15 && v < 0.55 ? 'block' : 'none');
+  const secondZ = useTransform(scrollYProgress, [0, 0.15, 0.2, 0.7, 0.75], [0, 0, 20, 20, 0]);
+  const secondDisplay = useTransform(scrollYProgress, (v) => v > 0.15 && v < 0.75 ? 'block' : 'none');
 
-  const horizontalZ = useTransform(scrollYProgress, [0, 0.45, 0.5], [0, 0, 30]);
-  const horizontalDisplay = useTransform(scrollYProgress, (v) => v > 0.45 ? 'block' : 'none');
+  const horizontalZ = useTransform(scrollYProgress, [0, 0.65, 0.7], [0, 0, 30]);
+  const horizontalDisplay = useTransform(scrollYProgress, (v) => v > 0.6 ? 'block' : 'none');
 
   return (
     <section ref={sequenceRef} className="relative h-[1200vh]">

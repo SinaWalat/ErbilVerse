@@ -112,32 +112,26 @@ function GlobePoints({ hoverPoint }) {
             const normArray = [];
             const dataArray = [];
 
-            const latStep = 1.5;
-            const lngStep = 1.5;
+            const latStep = 1.6;
+            const lngStep = 1.6;
             for (let lat = -90; lat <= 90; lat += latStep) {
                 for (let lng = -180; lng <= 180; lng += lngStep) {
                     const jLat = lat + (Math.random() - 0.5) * latStep * 0.5;
                     const jLng = lng + (Math.random() - 0.5) * lngStep * 0.5;
 
-                    const x = Math.floor((jLng + 180) / 360 * w);
-                    const y = Math.floor((90 - jLat) / 180 * h);
+                    // Uniform distribution: Ignore the image map data
+                    const phi = (90 - jLat) * (Math.PI / 180);
+                    const theta = (jLng + 180) * (Math.PI / 180);
 
-                    const idx = (y * w + x) * 4;
-                    const r = data[idx];
+                    const px = -(RADIUS * Math.sin(phi) * Math.cos(theta));
+                    const py = RADIUS * Math.cos(phi);
+                    const pz = RADIUS * Math.sin(phi) * Math.sin(theta);
 
-                    if (r < 128) {
-                        const phi = (90 - jLat) * (Math.PI / 180);
-                        const theta = (jLng + 180) * (Math.PI / 180);
-
-                        const px = -(RADIUS * Math.sin(phi) * Math.cos(theta));
-                        const py = RADIUS * Math.cos(phi);
-                        const pz = RADIUS * Math.sin(phi) * Math.sin(theta);
-
-                        if (Math.random() > 0.85) {
-                            posArray.push(px, py, pz);
-                            normArray.push(px / RADIUS, py / RADIUS, pz / RADIUS);
-                            dataArray.push(BASE_SCALE);
-                        }
+                    // Slightly higher probability to keep density pleasant across the whole sphere
+                    if (Math.random() > 0.88) {
+                        posArray.push(px, py, pz);
+                        normArray.push(px / RADIUS, py / RADIUS, pz / RADIUS);
+                        dataArray.push(BASE_SCALE);
                     }
                 }
             }
@@ -180,7 +174,6 @@ function GlobePoints({ hoverPoint }) {
                 if (distSq < hoverRadiusSq) {
                     const dist = Math.sqrt(distSq);
                     const hoverEffect = 1.0 - (dist / 0.5);
-                    // Subtler magnification
                     targetS += hoverEffect * 2.0;
                     anyHovered = true;
                 }
@@ -191,12 +184,12 @@ function GlobePoints({ hoverPoint }) {
 
             dummy.position.set(positions[i * 3], positions[i * 3 + 1], positions[i * 3 + 2]);
 
-            const target = new THREE.Vector3(
+            const targetLook = new THREE.Vector3(
                 positions[i * 3] + normals[i * 3],
                 positions[i * 3 + 1] + normals[i * 3 + 1],
                 positions[i * 3 + 2] + normals[i * 3 + 2]
             );
-            dummy.lookAt(target);
+            dummy.lookAt(targetLook);
 
             const s = currentScales.current[i];
             dummy.scale.set(s, s, s);
@@ -219,6 +212,10 @@ function GlobePoints({ hoverPoint }) {
             <meshBasicMaterial color="#60a5fa" transparent={true} opacity={0.8} side={THREE.DoubleSide} />
         </instancedMesh>
     );
+}
+
+function pow(a, b) {
+    return Math.pow(a, b);
 }
 
 function RotationLogic({ target, current, groupRef }) {
