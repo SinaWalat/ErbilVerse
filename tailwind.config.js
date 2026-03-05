@@ -1,3 +1,5 @@
+import tailwindcssAnimate from 'tailwindcss-animate';
+
 /** @type {import('tailwindcss').Config} */
 export default {
 	darkMode: ['class'],
@@ -23,8 +25,8 @@ export default {
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
-					light: '#9d6d4a',
-					dark: '#583e29',
+					light: '#3b82f6',
+					dark: '#1d4ed8',
 					foreground: 'hsl(var(--secondary-foreground))'
 				},
 				dark: '#050714',
@@ -62,7 +64,7 @@ export default {
 				}
 			},
 			boxShadow: {
-				glow: '0 0 40px rgba(122, 85, 58, 0.3)'
+				glow: '0 0 40px rgba(59, 130, 246, 0.3)'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -71,5 +73,5 @@ export default {
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [tailwindcssAnimate],
 };

@@ -45,7 +45,7 @@ const PropertyOverview = () => {
                         >
                             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
                             {/* Scanning line effect */}
-                            <div className="absolute top-0 left-0 w-full h-1 bg-secondary shadow-[0_0_20px_rgba(122,85,58,1)] animate-[scan_3s_ease-in-out_infinite_alternate]"></div>
+                            <div className="absolute top-0 left-0 w-full h-1 bg-secondary shadow-[0_0_20px_rgba(37,99,235,1)] animate-[scan_3s_ease-in-out_infinite_alternate]"></div>
                         </motion.div>
 
                         {/* Auxiliary block */}

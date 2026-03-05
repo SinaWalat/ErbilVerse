@@ -200,7 +200,7 @@ const CityMapScreen = () => {
                                     </div>
 
                                     {/* Floating Tooltip Label (In WebGL space, anchored properly) */}
-                                    <div className="absolute left-1/2 bottom-full mb-4 -translate-x-1/2 opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-[0.16,1,0.3,1] pointer-events-none whitespace-nowrap z-50">
+                                    <div className="absolute left-1/2 bottom-full mb-4 -translate-x-1/2 opacity-0 -translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 ease-out pointer-events-none whitespace-nowrap z-50">
                                         <div className="bg-[#111638]/90 backdrop-blur-xl px-5 py-3 rounded-xl shadow-[0_20px_40px_-5px_rgba(0,0,0,0.5)] border border-[#74573e]/30 flex flex-col items-center">
                                             {/* RTL Native Name */}
                                             <span
@@ -232,78 +232,81 @@ const CityMapScreen = () => {
                 </div>
             </div>
 
-            {/* 3. The Details / Command Center Dashboard (Bottom Left) */}
-            <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-20 w-[calc(100%-4rem)] md:w-[480px]">
+            {/* 3. The Details / Command Center Dashboard (Bottom Left on Desktop, Full-Width Dock on Mobile) */}
+            <div className="absolute bottom-0 left-0 md:bottom-12 md:left-12 z-20 w-full md:w-[380px] pointer-events-none">
                 <motion.div
-                    initial={{ opacity: 0, x: -40 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="relative bg-[#111638]/60 backdrop-blur-3xl rounded-[2.5rem] p-8 md:p-10 shadow-[0_40px_100px_-20px_rgba(0,0,0,0.7)] border border-white/10 overflow-hidden pointer-events-auto group"
+                    className="relative w-full bg-[#111638]/80 md:bg-[#111638]/60 backdrop-blur-3xl md:rounded-[2.5rem] p-5 md:p-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] md:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.7)] border-t md:border border-white/10 overflow-hidden pointer-events-auto"
                 >
                     {/* Inner highlight */}
                     <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />
 
-                    {/* Header line */}
-                    <div className="flex items-center gap-4 mb-8">
-                        <span className="w-10 h-[1px] bg-[#74573e]" />
-                        <span className="text-[10px] font-bold tracking-[0.25em] text-[#74573e] uppercase">
-                            Spatial Overview
-                        </span>
-                    </div>
+                    <div className="flex flex-row md:flex-col items-center md:items-start justify-between md:justify-start gap-4 md:gap-0">
+                        {/* Title Section */}
+                        <div className="flex flex-col">
+                            {/* Header line (Desktop only for space) */}
+                            <div className="hidden md:flex items-center gap-4 mb-8">
+                                <span className="w-10 h-[1px] bg-[#74573e]" />
+                                <span className="text-[10px] font-bold tracking-[0.25em] text-[#74573e] uppercase">
+                                    Spatial Overview
+                                </span>
+                            </div>
 
-                    {/* Main Titles */}
-                    <h2 className="text-5xl md:text-6xl font-light tracking-tight text-white leading-none mb-2 font-outfit">
-                        Digital
-                    </h2>
-                    <h2 className="text-5xl md:text-6xl font-medium tracking-tight text-white leading-none mb-6 font-outfit">
-                        Masterplan
-                    </h2>
-
-                    <p className="text-sm text-zinc-400 font-medium leading-relaxed mb-10 max-w-sm">
-                        Experience the entire development ecosystem through an immersive, live-data 3D mapping interface. Hover over nodes for realtime yields.
-                    </p>
-
-                    {/* Action Controls & Dynamic Status */}
-                    <div className="flex flex-col sm:flex-row gap-6 sm:items-center justify-between pt-8 border-t border-white/10 relative">
-                        {/* Dynamic readouts based on hover */}
-                        <div className="flex-1">
-                            <AnimatePresence mode="wait">
-                                {activeSpot ? (
-                                    <motion.div
-                                        key={activeSpot.name}
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -10 }}
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <span className="block text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-1">Target Yield</span>
-                                        <span className="block text-3xl font-bold text-[#74573e]">{hotspots.find(h => h.id === activeSpot)?.roi}</span>
-                                    </motion.div>
-                                ) : (
-                                    <motion.div
-                                        key="default"
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.3 }}
-                                    >
-                                        <span className="block text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-1">Total Zones</span>
-                                        <span className="block text-3xl font-bold text-white">42</span>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
+                            <div className="flex flex-col">
+                                <h2 className="text-xl md:text-6xl font-light tracking-tight text-white leading-none md:mb-2 font-outfit uppercase md:normal-case">
+                                    Digital
+                                </h2>
+                                <h2 className="text-xl md:text-6xl font-medium tracking-tight text-white leading-none mb-0 md:mb-6 font-outfit uppercase md:normal-case">
+                                    Masterplan
+                                </h2>
+                            </div>
                         </div>
 
-                        {/* Interactive Explore Button */}
-                        <button className="flex items-center gap-4 text-[10px] font-bold tracking-[0.2em] uppercase text-white hover:text-[#74573e] transition-colors group/explore">
-                            Explore Area
-                            <div className="flex items-center justify-center w-12 h-12 rounded-full border border-white/20 group-hover/explore:border-[#74573e] group-hover/explore:bg-[#74573e]/10 transition-colors">
-                                <svg className="w-4 h-4 group-hover/explore:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                                </svg>
+
+                        {/* Action Controls & Dynamic Status */}
+                        <div className="flex flex-row md:flex-col gap-4 md:gap-6 items-center md:items-start md:justify-between md:pt-8 md:border-t md:border-white/10 relative w-auto md:w-full">
+                            {/* Dynamic readouts based on hover */}
+                            <div className="hidden sm:block md:w-full">
+                                <AnimatePresence mode="wait">
+                                    {activeSpot ? (
+                                        <motion.div
+                                            key={activeSpot.name}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            exit={{ opacity: 0, y: -10 }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <span className="hidden md:block text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-1">Target Yield</span>
+                                            <span className="block text-xl md:text-3xl font-bold text-[#74573e]">{hotspots.find(h => h.id === activeSpot)?.roi}</span>
+                                        </motion.div>
+                                    ) : (
+                                        <motion.div
+                                            key="default"
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            exit={{ opacity: 0 }}
+                                            transition={{ duration: 0.3 }}
+                                        >
+                                            <span className="hidden md:block text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-1">Total Zones</span>
+                                            <span className="block text-xl md:text-3xl font-bold text-white">42</span>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
                             </div>
-                        </button>
+
+                            {/* Interactive Explore Button */}
+                            <button className="flex items-center gap-3 md:gap-4 text-[9px] md:text-[10px] font-bold tracking-[0.2em] uppercase text-white hover:text-[#74573e] transition-colors group/explore">
+                                <span className="hidden lg:inline">Explore Area</span>
+                                <div className="flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-full border border-white/20 bg-white/5 group-hover/explore:border-[#74573e] group-hover/explore:bg-[#74573e]/10 transition-colors">
+                                    <svg className="w-4 h-4 group-hover/explore:translate-x-1 transition-transform" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </motion.div>
             </div>

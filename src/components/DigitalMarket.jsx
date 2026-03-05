@@ -83,7 +83,7 @@ const DigitalMarket = () => {
                                 whileInView={{ pathLength: 1, opacity: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
-                                className="w-full h-[80%] drop-shadow-[0_0_15px_rgba(122,85,58,0.5)] z-10"
+                                className="w-full h-[80%] drop-shadow-[0_0_15px_rgba(37,99,235,0.5)] z-10"
                                 viewBox="0 0 100 50"
                                 preserveAspectRatio="none"
                             >
@@ -92,7 +92,7 @@ const DigitalMarket = () => {
                                     whileInView={{ pathLength: 1 }}
                                     viewport={{ once: true }}
                                     transition={{ duration: 1.5, ease: "easeInOut", delay: 0.5 }}
-                                    d="M0,50 L5,45 L15,48 L25,35 L40,40 L50,20 L65,25 L75,10 L85,15 L100,5" fill="none" stroke="#7a553a" strokeWidth="1.5" vectorEffect="non-scaling-stroke"
+                                    d="M0,50 L5,45 L15,48 L25,35 L40,40 L50,20 L65,25 L75,10 L85,15 L100,5" fill="none" stroke="#2563eb" strokeWidth="1.5" vectorEffect="non-scaling-stroke"
                                 />
                                 <motion.path
                                     initial={{ opacity: 0 }}
@@ -103,7 +103,7 @@ const DigitalMarket = () => {
                                 />
                                 <defs>
                                     <linearGradient id="gradient" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="0%" stopColor="#7a553a" />
+                                        <stop offset="0%" stopColor="#2563eb" />
                                         <stop offset="100%" stopColor="transparent" />
                                     </linearGradient>
                                 </defs>

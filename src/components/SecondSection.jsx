@@ -6,12 +6,12 @@ const sentence = "Modern life fatigues the mind. We build spatial experiences th
 const SecondSection = ({ progress }) => {
     // We map the global progress to a local progress so the text animation only happens
     // during Phase 2 of the unified timeline (from 0.2 to 0.5)
-    const localProgress = useTransform(progress, [0.2, 0.5], [0, 1]);
-
+    const localProgress = useTransform(progress, [0.3, 0.6], [0, 1]);
+    const containerOpacity = useTransform(progress, [0.25, 0.3, 0.6, 0.65], [0, 1, 1, 0]);
     const words = sentence.split(" ");
 
     return (
-        <motion.div className="relative w-full h-full font-sans bg-transparent pointer-events-none">
+        <motion.div style={{ opacity: containerOpacity }} className="relative w-full h-full font-sans bg-transparent">
             <div className="h-full w-full flex items-center justify-center overflow-hidden">
                 <div className="max-w-4xl px-6 md:px-12 lg:px-24 mx-auto text-center">
                     <p className="flex flex-wrap justify-center gap-x-2 md:gap-x-3 lg:gap-x-4 gap-y-1 md:gap-y-2 text-[1.5rem] md:text-[2.5rem] lg:text-[3.5rem] font-light leading-[1.2] tracking-tight">

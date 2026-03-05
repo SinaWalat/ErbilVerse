@@ -52,8 +52,8 @@ const DeveloperScreen = () => {
                 {/* Hero Introduction */}
                 <div className="flex flex-col mb-32 items-center text-center max-w-4xl mx-auto">
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
                         viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
                     >
@@ -81,48 +81,57 @@ const DeveloperScreen = () => {
                 {/* Staggered Feature Blocks (Instead of generic cards) */}
                 <div className="flex flex-col gap-32 relative">
                     {/* Central Vertical Connector Line */}
-                    <div className="absolute top-0 bottom-0 left-8 md:left-1/2 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent md:-translate-x-1/2 hidden sm:block" />
+                    <div className="absolute top-0 bottom-0 left-1/2 w-[1px] bg-gradient-to-b from-transparent via-white/10 to-transparent -translate-x-1/2" />
 
                     {features.map((feature, index) => {
                         const isEven = index % 2 === 0;
                         return (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 50 }}
-                                whileInView={{ opacity: 1, y: 0 }}
+                                initial={{ opacity: 0 }}
+                                whileInView={{ opacity: 1 }}
                                 viewport={{ once: true, margin: "-100px" }}
                                 transition={{ duration: 1, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                                className={`flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-16 lg:gap-32 w-full relative z-10 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+                                className={`flex flex-row items-center gap-6 sm:gap-16 lg:gap-32 w-full relative z-10 ${isEven ? 'flex-row' : 'flex-row-reverse'}`}
                             >
                                 {/* Center Node for Timeline */}
-                                <div className="hidden sm:flex absolute left-8 md:left-1/2 top-1/2 -translate-y-1/2 md:-translate-x-1/2 w-16 h-16 rounded-full bg-[#111638] border border-white/20 items-center justify-center shadow-md">
-                                    <div className="w-3 h-3 rounded-full bg-[#74573e]" />
+                                <div className="absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-10 h-10 sm:w-16 sm:h-16 rounded-full bg-[#111638] border border-white/20 flex items-center justify-center shadow-md">
+                                    <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#74573e]" />
                                 </div>
 
                                 {/* Text Content */}
-                                <div className={`w-full md:w-1/2 pl-24 sm:pl-32 md:-pl-0 flex flex-col ${isEven ? 'md:items-end md:text-right md:pr-16' : 'md:items-start md:text-left md:pl-16'}`}>
-                                    <span className="text-xs font-bold tracking-widest text-[#74573e] uppercase mb-4 block">
+                                <div className={`w-1/2 flex flex-col px-4 sm:px-16 ${isEven ? 'items-end text-right' : 'items-start text-left'}`}>
+                                    <span className="text-[10px] sm:text-xs font-bold tracking-widest text-[#74573e] uppercase mb-2 sm:mb-4 block">
                                         {feature.stat}
                                     </span>
-                                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-medium text-white mb-6 tracking-tight">
+                                    <h3 className="text-xl sm:text-3xl md:text-4xl lg:text-5xl font-medium text-white mb-3 sm:mb-6 tracking-tight leading-tight">
                                         {feature.title}
                                     </h3>
-                                    <p className="text-lg text-zinc-400 leading-relaxed font-light max-w-sm">
+                                    <p className="text-xs sm:text-lg text-zinc-400 leading-relaxed font-light max-w-sm hidden sm:block">
                                         {feature.desc}
                                     </p>
                                 </div>
 
                                 {/* Minimalist Icon/Graphic Display */}
-                                <div className="w-full md:w-1/2 hidden md:flex items-center justify-center">
-                                    <motion.div
-                                        whileHover={{ scale: 1.05 }}
-                                        transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                        className="w-48 h-48 rounded-[2rem] bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center mt-8 md:mt-0"
+                                <div className="w-1/2 flex items-center justify-center">
+                                    <div
+                                        className="w-16 h-16 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-2xl sm:rounded-[2rem] bg-white/5 backdrop-blur-sm border border-white/10 flex items-center justify-center relative overflow-hidden"
                                     >
-                                        <svg className="w-16 h-16 text-[#74573e] opacity-80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1" d={feature.icon} />
+                                        {/* Static Icon */}
+                                        <svg
+                                            className="w-6 h-6 sm:w-12 sm:h-12 md:w-16 md:h-16 text-[#74573e] relative z-10"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="1.5"
+                                                d={feature.icon}
+                                            />
                                         </svg>
-                                    </motion.div>
+                                    </div>
                                 </div>
                             </motion.div>
                         );
