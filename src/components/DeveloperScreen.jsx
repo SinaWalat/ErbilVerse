@@ -41,6 +41,10 @@ const DeveloperScreen = () => {
     return (
         <section ref={containerRef} className="relative w-full py-32 md:py-48 bg-[#111638] text-white overflow-hidden flex flex-col items-center justify-center">
 
+            {/* Ambient glows */}
+            <div className="absolute top-1/4 left-[-10%] w-[500px] h-[500px] rounded-full bg-white/5 blur-[150px] pointer-events-none" />
+            <div className="absolute bottom-[20%] right-[-5%] w-[600px] h-[600px] rounded-full bg-[#74573e]/[0.08] blur-[200px] pointer-events-none" />
+
             {/* Elegant Parallax Background Elements */}
             <motion.div style={{ y: yBg }} className="absolute inset-0 pointer-events-none opacity-20">
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent" />
@@ -60,21 +64,26 @@ const DeveloperScreen = () => {
                         <span className="text-sm font-bold tracking-[0.2em] text-[#74573e] uppercase mb-8 block">
                             Ecosystem Partners
                         </span>
-                        <h2 className="text-5xl md:text-7xl lg:text-8xl tracking-tight text-white leading-none mb-12 font-medium">
+                        <h2 className="text-5xl md:text-7xl lg:text-8xl tracking-tight text-white leading-none mb-6 font-medium">
                             For <br className="md:hidden" />
                             <span className="text-[#fcfcfc]">Developers</span>
                         </h2>
-                        <p className="text-xl md:text-2xl text-zinc-400 font-light leading-relaxed mb-16 max-w-3xl mx-auto">
+
+                        <p className="text-xl md:text-3xl text-[#74573e] font-light tracking-wide mb-6">
+                            Early partners gain presence inside the platform’s core environment.
+                        </p>
+
+                        <p className="text-xl md:text-2xl text-zinc-400 font-light leading-relaxed mb-12 max-w-3xl mx-auto">
                             A new digital presence inside Erbil’s interactive city layer. Leverage cutting-edge technology to showcase your developments to a global audience.
                         </p>
 
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="bg-white text-[#111638] px-10 py-5 rounded-full text-sm font-bold uppercase tracking-widest hover:bg-[#74573e] hover:text-white transition-all duration-300 shadow-xl"
-                        >
-                            Partner With Us
-                        </motion.button>
+                        <button className="group relative inline-flex items-center gap-3 px-8 py-[14px] rounded-full bg-[#74573e] text-white font-medium text-[13px] tracking-wider uppercase transition-all duration-500 hover:bg-[#5e4532] hover:shadow-[0_8px_30px_rgba(116,87,62,0.4)] overflow-hidden">
+                            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.06] to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-out" />
+                            <span className="relative z-10">Partner With Us</span>
+                            <svg className="w-4 h-4 relative z-10 transition-transform duration-300 group-hover:translate-x-0.5" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
+                                <path d="M3 8h10M9 4l4 4-4 4" />
+                            </svg>
+                        </button>
                     </motion.div>
                 </div>
 

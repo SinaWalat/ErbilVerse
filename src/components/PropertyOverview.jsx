@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, AreaChart, CircleDollarSign, Info } from 'lucide-react';
+import { Building2, AreaChart, Activity, Info } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const PropertyOverview = () => {
@@ -95,7 +95,7 @@ const PropertyOverview = () => {
                             <h3 className="text-xl font-medium font-outfit">1,250 sq.m</h3>
                         </motion.div>
 
-                        {/* Market Value */}
+                        {/* Ecosystem Metric */}
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -104,19 +104,19 @@ const PropertyOverview = () => {
                             className="glass-panel p-6 rounded-2xl relative overflow-hidden group hover:border-primary-light transition-colors sm:col-span-2"
                         >
                             <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
-                                <CircleDollarSign size={120} />
+                                <Activity size={120} />
                             </div>
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                 <div>
                                     <div className="w-12 h-12 rounded-full bg-primary/30 flex items-center justify-center mb-4 border border-border">
-                                        <CircleDollarSign size={24} className="text-secondary-light" />
+                                        <Activity size={24} className="text-secondary-light" />
                                     </div>
-                                    <p className="text-sm text-text-muted uppercase tracking-wider mb-2">Digital Market Value</p>
-                                    <h3 className="text-3xl font-bold font-outfit text-gradient-gold">IQD 1.8B</h3>
+                                    <p className="text-sm text-text-muted uppercase tracking-wider mb-2">Platform Engagement</p>
+                                    <h3 className="text-3xl font-bold font-outfit text-gradient-gold">High Intensity</h3>
                                 </div>
                                 <div className="text-right sm:mt-auto">
                                     <span className="inline-block px-3 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20 text-sm font-medium">
-                                        +2.4% this month
+                                        Expanding activity
                                     </span>
                                 </div>
                             </div>

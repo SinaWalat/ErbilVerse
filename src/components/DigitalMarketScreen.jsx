@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import NumberFlow from '@number-flow/react';
 import { AreaChart, Area, ResponsiveContainer, YAxis, Tooltip } from 'recharts';
 
-const DigitalMarketScreen = () => {
+const UrbanActivityScreen = () => {
     // Dynamic Market Data State (Numeric for animation)
     const [tradingVolume, setTradingVolume] = useState(8.4);
     const [chartData, setChartData] = useState(() =>
@@ -30,19 +30,19 @@ const DigitalMarketScreen = () => {
 
     // Extended list for the looping marquee
     const transactions = [
-        { id: "TX-A1", type: "Buy", amount: "$120,000", time: "2m ago", status: "Completed" },
-        { id: "TX-B4", type: "Sell", amount: "$85,500", time: "15m ago", status: "Completed" },
-        { id: "TX-C2", type: "Buy", amount: "$450,000", time: "1h ago", status: "Pending" },
-        { id: "TX-D9", type: "Sell", amount: "$210,000", time: "2h ago", status: "Completed" },
-        { id: "TX-E5", type: "Buy", amount: "$930,000", time: "3h ago", status: "Completed" },
-        { id: "TX-F7", type: "Buy", amount: "$50,000", time: "4h ago", status: "Processing" },
+        { id: "EV-A1", type: "Ingest", level: "High", time: "2m ago", status: "Completed" },
+        { id: "EV-B4", type: "Interact", level: "Med", time: "15m ago", status: "Completed" },
+        { id: "EV-C2", type: "Ingest", level: "High", time: "1h ago", status: "Pending" },
+        { id: "EV-D9", type: "Interact", level: "Med", time: "2h ago", status: "Completed" },
+        { id: "EV-E5", type: "Ingest", level: "High", time: "3h ago", status: "Completed" },
+        { id: "EV-F7", type: "Ingest", level: "High", time: "4h ago", status: "Processing" },
     ];
 
     const activity = [
-        { user: "User_88", action: "Listed Property", location: "District 4" },
-        { user: "GlobalCorp", action: "Bid Placed", location: "Central Hub" },
-        { user: "User_12", action: "Viewed 3D Model", location: "North Wing" },
-        { user: "System", action: "Market Update", location: "All Regions" }
+        { participant: "Participant_88", action: "Updated Presence", location: "District 4" },
+        { participant: "GlobalCorp", action: "Engagement", location: "Central Hub" },
+        { participant: "Participant_12", action: "Viewed 3D Model", location: "North Wing" },
+        { participant: "System", action: "Node Update", location: "All Regions" }
     ];
 
     return (
@@ -54,7 +54,7 @@ const DigitalMarketScreen = () => {
                 <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[radial-gradient(circle,rgba(17,22,56,0.04)_0%,transparent_70%)] blur-3xl" />
             </div>
 
-            <div className="max-w-[1400px] mx-auto w-full px-6 md:px-12 relative z-10">
+            <div className="max-w-[1600px] mx-auto w-full px-6 md:px-12 lg:px-24 relative z-10">
 
                 {/* Elegant Header */}
                 <div className="flex flex-col items-center text-center mb-16">
@@ -64,22 +64,11 @@ const DigitalMarketScreen = () => {
                         viewport={{ once: true, margin: "-50px" }}
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                     >
-                        <div className="flex items-center justify-center gap-4 mb-6">
-                            <span className="w-8 h-[1px] bg-[#74573e]/40" />
-                            <span className="text-xs font-bold tracking-[0.2em] text-[#74573e] uppercase flex items-center gap-2">
-                                <span className="relative flex h-2 w-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#74573e] opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#74573e]"></span>
-                                </span>
-                                System Live
-                            </span>
-                            <span className="w-8 h-[1px] bg-[#74573e]/40" />
-                        </div>
                         <h2 className="text-4xl md:text-6xl tracking-tight text-[#111638] mb-6 font-medium">
-                            Live Digital <span className="">Market</span>
+                            Urban Activity <span className="">Hub</span>
                         </h2>
                         <p className="text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed">
-                            Monitor real-time valuations, secure transactions, and platform-wide activity in a unified, floating ledger dashboard.
+                            Monitor real-time interactions, secure activity logs, and platform-wide presence in a unified, floating dashboard.
                         </p>
                     </motion.div>
                 </div>
@@ -98,11 +87,10 @@ const DigitalMarketScreen = () => {
                         {/* Left: Metric */}
                         <div className="shrink-0">
                             <span className="text-sm font-semibold text-zinc-400 uppercase tracking-widest mb-3 block">
-                                24H Trading Volume
+                                24H Platform Engagement
                             </span>
                             <div className="flex items-baseline gap-5">
                                 <div className="text-6xl md:text-8xl tracking-tighter text-[#111638] font-medium flex items-baseline" style={{ lineHeight: 1 }}>
-                                    <span style={{ lineHeight: 1 }}>$</span>
                                     <NumberFlow
                                         value={tradingVolume}
                                         format={{ minimumFractionDigits: 1, maximumFractionDigits: 1 }}
@@ -110,7 +98,7 @@ const DigitalMarketScreen = () => {
                                         className="font-medium"
                                         style={{ lineHeight: 1 }}
                                     />
-                                    <span style={{ lineHeight: 1 }}>M</span>
+                                    <span style={{ lineHeight: 1 }} className="ml-2 uppercase text-3xl opacity-30">Activity</span>
                                 </div>
                                 <span className="bg-[#74573e]/10 text-[#74573e] px-4 py-1.5 rounded-full text-sm font-bold flex items-center gap-1.5 shadow-sm">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
@@ -155,7 +143,7 @@ const DigitalMarketScreen = () => {
                                                     boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
                                                     border: '1px solid rgba(116,87,62,0.3)',
                                                 }}>
-                                                    ${volume.toFixed(1)}M
+                                                    {volume.toFixed(1)}M ACTIVITY
                                                 </div>
                                             );
                                         }}
@@ -202,7 +190,7 @@ const DigitalMarketScreen = () => {
                             className="lg:col-span-7 bg-white/70 backdrop-blur-2xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#111638]/5 flex flex-col"
                         >
                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-lg font-bold text-[#111638]">Live Transaction Feed</h3>
+                                <h3 className="text-lg font-bold text-[#111638]">Live Activity Feed</h3>
                                 <div className="flex items-center gap-2 text-xs font-semibold text-[#74573e]">
                                     <span className="w-2 h-2 rounded-full bg-[#74573e] animate-pulse" />
                                     SYNCING
@@ -218,21 +206,21 @@ const DigitalMarketScreen = () => {
                                 >
                                     {[...transactions, ...transactions].map((tx, index) => (
                                         <div
-                                            key={`${tx.id} -${index} `}
+                                            key={`${tx.id}-${index}`}
                                             className="bg-white rounded-2xl p-5 shadow-sm border border-[#111638]/5 flex justify-between items-center group hover:bg-zinc-50/50 transition-colors cursor-pointer"
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className={`w - 12 h - 12 rounded - full flex items - center justify - center transition - colors ${tx.type === 'Buy' ? 'bg-[#74573e]/10 text-[#74573e] group-hover:bg-[#74573e]/20' : 'bg-zinc-50 text-zinc-500 group-hover:bg-zinc-100'} `}>
-                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={tx.type === 'Buy' ? "M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" : "M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"} /></svg>
+                                                <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${tx.type === 'Ingest' ? 'bg-[#74573e]/10 text-[#74573e] group-hover:bg-[#74573e]/20' : 'bg-zinc-50 text-zinc-500 group-hover:bg-zinc-100'}`}>
+                                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={tx.type === 'Ingest' ? "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" : "M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"} /></svg>
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-bold text-[#111638] group-hover:text-[#74573e] transition-colors">{tx.id}</p>
-                                                    <p className="text-xs text-zinc-500 font-medium mt-1">{tx.time} &bull; {tx.type}</p>
+                                                    <p className="text-xs text-zinc-500 font-medium mt-1">{tx.time} &bull; {tx.type} Sequence</p>
                                                 </div>
                                             </div>
                                             <div className="text-right flex flex-col items-end">
-                                                <p className="text-lg font-medium text-[#111638]">{tx.amount}</p>
-                                                <div className={`text - [10px] font - medium uppercase tracking - wider mt - 1 px - 2 py - 0.5 rounded - sm ${tx.status === 'Completed' ? 'bg-green-100 text-green-700' : tx.status === 'Processing' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'} `}>
+                                                <p className="text-lg font-medium text-[#111638] uppercase text-xs opacity-60 tracking-tighter">{tx.level} Level</p>
+                                                <div className={`text-[10px] font-medium uppercase tracking-wider mt-1 px-2 py-0.5 rounded-sm ${tx.status === 'Completed' ? 'bg-green-100 text-green-700' : tx.status === 'Processing' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'}`}>
                                                     {tx.status}
                                                 </div>
                                             </div>
@@ -254,31 +242,40 @@ const DigitalMarketScreen = () => {
                             transition={{ duration: 0.6, delay: 0.2 }}
                             className="lg:col-span-5 bg-white/70 backdrop-blur-2xl rounded-[2rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-[#111638]/5 relative overflow-hidden"
                         >
-                            <h3 className="text-lg font-bold text-[#111638] mb-8 relative z-10">Network Events</h3>
+                            <div className="flex justify-between items-center mb-6">
+                                <h3 className="text-lg font-bold text-[#111638]">Network Events</h3>
+                                <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-widest">Live</span>
+                            </div>
 
-                            <div className="relative pl-6 space-y-8 z-10">
-                                {/* Timeline line */}
-                                <div className="absolute left-[8px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-[#74573e]/50 via-[#111638]/10 to-transparent" />
-
+                            <div className="flex flex-col gap-3">
                                 {activity.map((act, index) => (
                                     <motion.div
                                         key={index}
-                                        initial={{ opacity: 0, x: 20 }}
+                                        initial={{ opacity: 0, x: 15 }}
                                         whileInView={{ opacity: 1, x: 0 }}
                                         viewport={{ once: true }}
-                                        transition={{ duration: 0.5, delay: 0.4 + (index * 0.1) }}
-                                        className="relative group cursor-pointer"
+                                        transition={{ duration: 0.5, delay: 0.3 + (index * 0.08) }}
+                                        className="group flex items-center gap-4 p-4 rounded-xl bg-white/60 border border-[#111638]/[0.04] hover:bg-[#111638] hover:border-[#111638] transition-all duration-400 cursor-pointer"
                                     >
-                                        {/* Timeline Dot */}
-                                        <div className="absolute left-[-21px] top-1.5 w-[10px] h-[10px] rounded-full bg-white border-[2px] border-[#74573e] group-hover:scale-125 group-hover:bg-[#74573e] transition-all duration-300 shadow-sm" />
-
-                                        <div className="flex flex-col gap-1.5">
-                                            <p className="text-sm">
-                                                <span className="font-bold text-[#111638] block">{act.user}</span>
-                                                <span className="text-zinc-500 font-medium text-xs block mt-0.5">{act.action} in <span className="font-semibold text-[#111638]">{act.location}</span></span>
-                                            </p>
-                                            <p className="text-[10px] text-[#74573e] font-bold tracking-[0.1em] uppercase">Just Now</p>
+                                        {/* Avatar circle */}
+                                        <div className="w-9 h-9 rounded-full bg-[#111638]/[0.06] flex items-center justify-center shrink-0 group-hover:bg-white/[0.1] transition-colors duration-400">
+                                            <span className="text-[11px] font-bold text-[#111638] group-hover:text-white transition-colors duration-400">
+                                                {act.participant.charAt(0)}
+                                            </span>
                                         </div>
+
+                                        {/* Info */}
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-[13px] font-semibold text-[#111638] group-hover:text-white transition-colors duration-400 truncate">{act.participant}</p>
+                                            <p className="text-[11px] text-zinc-400 group-hover:text-white/50 transition-colors duration-400 truncate mt-0.5">
+                                                {act.action} in <span className="font-semibold text-[#111638]/70 group-hover:text-white/70 transition-colors duration-400">{act.location}</span>
+                                            </p>
+                                        </div>
+
+                                        {/* Time badge */}
+                                        <span className="text-[9px] font-bold text-[#74573e] group-hover:text-[#74573e] bg-[#74573e]/[0.06] group-hover:bg-[#74573e]/20 px-2.5 py-1 rounded-full uppercase tracking-wider shrink-0 transition-colors duration-400">
+                                            Now
+                                        </span>
                                     </motion.div>
                                 ))}
                             </div>
@@ -291,4 +288,4 @@ const DigitalMarketScreen = () => {
     );
 };
 
-export default DigitalMarketScreen;
+export default UrbanActivityScreen;

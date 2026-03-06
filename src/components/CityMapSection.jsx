@@ -125,7 +125,7 @@ const CityMapSection = () => {
                                         <p className="font-medium">{district.active}</p>
                                     </div>
                                     <div className="text-right">
-                                        <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Market</p>
+                                        <p className="text-xs text-text-muted uppercase tracking-wider mb-1">Density</p>
                                         <span className="text-xs px-2 py-1 rounded bg-primary-light/30 text-primary-light border border-primary-light/50 font-medium">
                                             {district.value}
                                         </span>

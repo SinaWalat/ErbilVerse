@@ -3,13 +3,13 @@ import { TrendingUp, Activity, ArrowUpRight, ArrowDownRight, Clock } from 'lucid
 import { motion } from 'framer-motion';
 
 const recentActivity = [
-    { id: 1, type: 'Sale', property: 'Empire Tower 3, Apt 4B', amount: 'IQD 340M', time: '10m ago', trend: 'up' },
-    { id: 2, type: 'Listing', property: 'Dream City, Villa 12', amount: 'IQD 1.2B', time: '45m ago', trend: 'neutral' },
-    { id: 3, type: 'Sale', property: 'Italian Village, 2BR', amount: 'IQD 210M', time: '2h ago', trend: 'down' },
-    { id: 4, type: 'Transfer', property: 'Gulan Residences, P1', amount: 'IQD 890M', time: '3h ago', trend: 'up' },
+    { id: 1, type: 'Interaction', property: 'Empire Tower 3, Apt 4B', amount: 'High Engagement', time: '10m ago', trend: 'up' },
+    { id: 2, type: 'Presence', property: 'Dream City, Villa 12', amount: 'Stable Presence', time: '45m ago', trend: 'neutral' },
+    { id: 3, type: 'Interaction', property: 'Italian Village, 2BR', amount: 'Medium Engagement', time: '2h ago', trend: 'down' },
+    { id: 4, type: 'Update', property: 'Gulan Residences, P1', amount: 'Active Node', time: '3h ago', trend: 'up' },
 ];
 
-const DigitalMarket = () => {
+const DigitalActivityLayer = () => {
     return (
         <section id="market" className="py-24 relative bg-[#030409]">
             <div className="container-custom relative z-10">
@@ -23,10 +23,10 @@ const DigitalMarket = () => {
                 >
                     <div>
                         <h2 className="text-4xl md:text-5xl font-bold font-outfit mb-4">
-                            Live Digital <span className="text-gradient">Market</span>
+                            Live Digital <span className="text-gradient">Activity Layer</span>
                         </h2>
                         <p className="text-text-muted text-lg max-w-xl font-light">
-                            Market values change dynamically based on real platform activity.
+                            Platform activity and environmental shifts are recorded in real-time.
                         </p>
                     </div>
                     <div className="flex items-center gap-2 px-4 py-2 rounded-full border border-green-500/30 bg-green-500/10 text-green-400">
@@ -34,7 +34,7 @@ const DigitalMarket = () => {
                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
                             <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                         </span>
-                        <span className="text-sm font-medium tracking-wide uppercase">Market Open</span>
+                        <span className="text-sm font-medium tracking-wide uppercase">System Active</span>
                     </div>
                 </motion.div>
 
@@ -54,7 +54,7 @@ const DigitalMarket = () => {
                             <div>
                                 <h3 className="text-xl font-medium font-outfit mb-1 flex items-center gap-2">
                                     <TrendingUp size={20} className="text-secondary-light" />
-                                    Market Movement
+                                    Engagement Flux
                                 </h3>
                                 <p className="text-sm text-text-muted">Erbil Prime Index (EPI)</p>
                             </div>
@@ -129,7 +129,7 @@ const DigitalMarket = () => {
                     >
                         <h3 className="text-xl font-medium font-outfit mb-6 flex items-center gap-2">
                             <Activity size={20} className="text-secondary-light" />
-                            Latest Transactions
+                            Recent Interactions
                         </h3>
 
                         <div className="flex-1 overflow-y-auto pr-2 custom-scrollbar flex flex-col gap-4">
@@ -181,4 +181,4 @@ const DigitalMarket = () => {
     );
 };
 
-export default DigitalMarket;
+export default DigitalActivityLayer;

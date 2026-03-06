@@ -99,7 +99,7 @@ const FullScreenMenu = ({ isOpen, onClose }) => {
 
                                                 {/* Label */}
                                                 <span
-                                                    className="text-[3rem] md:text-[4.5rem] lg:text-[5.5rem] font-bold leading-[0.95] tracking-[-0.03em] transition-all duration-500 relative"
+                                                    className="text-[3rem] md:text-[4.5rem] lg:text-[5.5rem] font-light leading-[0.95] tracking-[-0.03em] transition-all duration-500 relative"
                                                     style={{
                                                         color: hoveredIndex === null || hoveredIndex === i ? 'rgba(255,255,255,0.95)' : 'rgba(255,255,255,0.15)',
                                                         transform: hoveredIndex === i ? 'translateX(12px)' : 'translateX(0)',

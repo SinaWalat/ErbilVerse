@@ -11,7 +11,7 @@ const features = [
     {
         icon: <Users size={24} className="text-secondary-light" />,
         title: "Connect with New Audiences",
-        desc: "Reach a global network of digital real estate enthusiasts and potential domestic investors."
+        desc: "Reach a global network of digital urbanism enthusiasts and potential domestic participants."
     },
     {
         icon: <MessageSquareMore size={24} className="text-secondary-light" />,
@@ -21,7 +21,7 @@ const features = [
     {
         icon: <Award size={24} className="text-secondary-light" />,
         title: "Strengthen Digital Positioning",
-        desc: "Establish your brand as a forward-thinking pioneer in Erbil's digital real estate revolution."
+        desc: "Establish your brand as a forward-thinking pioneer in Erbil's digital urban revolution."
     }
 ];
 
@@ -52,7 +52,7 @@ const DeveloperSection = () => {
                         </h2>
 
                         <p className="text-text-muted text-lg font-light leading-relaxed mb-10 max-w-lg">
-                            A new digital presence inside Erbil's interactive city layer. Leverage the ErbilVerse platform to showcase, market, and manage your developments.
+                            A new digital presence inside Erbil's interactive city layer. Leverage the ERBILVERSE platform to showcase, engage, and manage your developments.
                         </p>
 
                         <div className="grid sm:grid-cols-2 gap-6 mb-10">

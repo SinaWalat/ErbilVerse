@@ -3,24 +3,24 @@ import { motion, AnimatePresence } from 'motion/react';
 
 const faqs = [
     {
-        question: "What is ErbilVerse?",
-        answer: "ErbilVerse is a comprehensive digital layer of Erbil's real estate ecosystem, integrating spatial data, market analytics, and developer tools into a unified, interactive platform."
+        question: "What is the mission of ERBILVERSE?",
+        answer: "ERBILVERSE operates as a structured digital property environment within the city framework, where digital ownership and interaction exist exclusively within a verified, platform-wide ecosystem."
     },
     {
-        question: "How is the data verified?",
-        answer: "All property information and transactions are synchronized with official records and secured using immutable digital logging, ensuring absolute transparency for all participants."
+        question: "How is 'Trust as Infrastructure' maintained?",
+        answer: "Trust is integrated into the platform's core through immutable digital logging and transparent verification layers, ensuring that every property record and transaction is secure and traceable."
     },
     {
-        question: "Can anyone join the platform?",
-        answer: "The platform is open to investors, developers, and residents. Each user type has access to specialized tools tailored to their role within the urban landscape."
+        question: "What is the Live Activity Environment?",
+        answer: "It is a dynamic system where digital property values respond automatically to platform activity, reflecting real-time interaction, movement, and engagement across the city’s digital layers."
     },
     {
-        question: "Is there a mobile app available?",
-        answer: "ErbilVerse is designed as a high-performance web-first application, fully optimized for all mobile devices without requiring a separate download."
+        question: "How do the city layers work?",
+        answer: "The platform utilizes multiple specialized data layers—from basic topography to complex urban activity—allowing stakeholders to visualize and analyze the city from a multi-dimensional perspective."
     },
     {
-        question: "How do developers partner with us?",
-        answer: "Developers can apply to become Ecosystem Partners, which grants them the ability to showcase projects in 3D and engage directly with a global audience of stakeholders."
+        question: "How can developers join the ecosystem?",
+        answer: "Early partners gain priority presence inside the platform’s core environment during the launch phase, enabling them to showcase projects and influence the evolving digital landscape."
     }
 ];
 
@@ -31,7 +31,7 @@ const FAQItem = ({ faq, isOpen, toggle }) => {
                 onClick={toggle}
                 className="w-full py-8 md:py-10 flex items-center justify-between text-left"
             >
-                <span className={`text-xl md:text-3xl font-medium tracking-tight transition-colors duration-300 ${isOpen ? 'text-[#74573e]' : 'text-zinc-900 group-hover:text-zinc-600'}`}>
+                <span className={`text-xl md:text-3xl font-medium tracking-tight transition-colors duration-300 ${isOpen ? 'text-[#74573e]' : 'text-[#111638] group-hover:text-zinc-600'}`}>
                     {faq.question}
                 </span>
 
@@ -98,12 +98,12 @@ const FAQSection = () => {
                             <span className="text-xs font-semibold tracking-widest text-zinc-400 uppercase mb-8 block">
                                 Information
                             </span>
-                            <h2 className="text-5xl md:text-6xl tracking-tight text-zinc-900 leading-[1.1] mb-8 font-medium">
+                            <h2 className="text-5xl md:text-6xl tracking-tight text-[#111638] leading-[1.1] mb-8 font-medium">
                                 Common <br />
                                 Questions
                             </h2>
                             <p className="text-lg text-zinc-500 font-light leading-relaxed max-w-sm">
-                                Find the answers to everything from ErbilVerse’s operational framework to platform partnerships.
+                                Find the answers to everything from ERBILVERSE’s operational framework to platform partnerships.
                             </p>
                         </motion.div>
                     </div>

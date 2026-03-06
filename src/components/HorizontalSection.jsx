@@ -95,7 +95,7 @@ const HorizontalSection = ({ progress }) => {
 
     const headlineWords = "Digital Urbanism.".split(" ");
     const introLabel = "The Platform Ecosystem".split(" ");
-    const descriptionWords = "Discover the layers that make ErbilVerse a living digital city.".split(" ");
+    const descriptionWords = "Discover the layers that make ERBILVERSE a living digital city.".split(" ");
 
     // Fade the white background in as the entire global track transitions from 0.6 to 0.7
     const sectionOpacity = useTransform(progress, [0.6, 0.7], [0, 1]);
@@ -253,8 +253,8 @@ const HorizontalSection = ({ progress }) => {
                         >
                             <Card
                                 badge="Module 02"
-                                title="Market"
-                                description="Dynamic market values based on platform activity."
+                                title="Activity Layer"
+                                description="Dynamic engagement levels based on platform activity."
                                 icon={<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>}
                                 isMobile={isMobile}
                             >

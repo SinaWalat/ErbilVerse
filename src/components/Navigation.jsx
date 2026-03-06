@@ -78,7 +78,7 @@ const Navigation = () => {
                         <Link to="/" className="flex items-center">
                             <img
                                 src="/ErbilVerse-LogoText.svg"
-                                alt="ErbilVerse"
+                                alt="ERBILVERSE"
                                 className="h-10 w-auto transition-all duration-300 pointer-events-auto"
                                 style={{ filter: logoFilter }}
                             />

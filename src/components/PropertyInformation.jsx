@@ -5,7 +5,7 @@ const PropertyInformation = () => {
     const specs = [
         { label: "Location", value: "Erbil Central District", category: "Geographic Data" },
         { label: "Total Area", value: "4,200 SQFT", category: "Physical Metrics" },
-        { label: "Digital Market Value", value: "$450,000 USD", category: "Valuation" },
+        { label: "Engagement Metric", value: "High Activity", category: "Ecosystem Data" },
         { label: "Project Information", value: "Phase 1 / Verified", category: "Status" }
     ];
 
@@ -106,7 +106,7 @@ const PropertyInformation = () => {
                                     <span className="text-xl md:text-2xl font-light text-[#111638] tracking-tight">{item.label}</span>
                                 </div>
                                 <div className="sm:text-right flex items-center gap-6">
-                                    <span className={`text-xl md:text-2xl font-medium tracking-tight ${item.label === 'Digital Market Value' ? 'text-[#74573e]' : 'text-[#111638]'}`}>
+                                    <span className={`text-xl md:text-2xl font-medium tracking-tight ${item.label === 'Engagement Metric' ? 'text-[#74573e]' : 'text-[#111638]'}`}>
                                         {item.value}
                                     </span>
                                     {/* Minimalist interactive arrow on hover */}

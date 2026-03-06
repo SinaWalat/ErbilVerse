@@ -1,17 +1,17 @@
 import React from 'react';
 import { motion } from 'motion/react';
 
-const VerifiedUsersVisual = () => (
+const VerifiedParticipantsVisual = () => (
     <div className="relative w-full h-56 md:h-64 flex items-center justify-center overflow-hidden border-b border-[#111638]/5 bg-gradient-to-b from-transparent to-[#fcfcfc]">
         <svg viewBox="0 0 100 100" className="w-40 h-40 stroke-zinc-300 fill-none" strokeWidth="1.5">
-            {/* User Head */}
+            {/* Participant Head */}
             <motion.circle cx="40" cy="35" r="12"
                 initial={{ pathLength: 0, opacity: 0 }}
                 whileInView={{ pathLength: 1, opacity: 1 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 1.2, ease: "easeInOut" }}
             />
-            {/* User Body */}
+            {/* Participant Body */}
             <motion.path
                 initial={{ pathLength: 0, opacity: 0 }}
                 whileInView={{ pathLength: 1, opacity: 1 }}
@@ -44,40 +44,79 @@ const VerifiedUsersVisual = () => (
 
 const LedgerVisual = () => (
     <div className="relative w-full h-56 md:h-64 flex items-center justify-center overflow-hidden border-b border-[#111638]/5 bg-gradient-to-b from-transparent to-[#fcfcfc]">
-        <svg viewBox="0 0 100 100" className="w-40 h-40 stroke-zinc-300 fill-none" strokeWidth="1.5">
-            {/* Document Outline */}
+        {/* Subtle grid background */}
+        <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, rgba(17, 22, 56, 0.04) 1px, transparent 1px)', backgroundSize: '16px 16px' }} />
+
+        <svg viewBox="0 0 100 100" className="w-40 h-40 select-none z-10" strokeWidth="1.5">
+            {/* The Ledger Document Base */}
             <motion.path
-                initial={{ pathLength: 0, opacity: 0 }}
-                whileInView={{ pathLength: 1, opacity: 1 }}
+                initial={{ pathLength: 0, fill: "rgba(255, 255, 255, 0)" }}
+                whileInView={{ pathLength: 1, fill: "rgba(255, 255, 255, 1)" }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 1.5, ease: "easeInOut" }}
-                d="M 30 15 L 60 15 L 75 30 L 75 85 L 30 85 Z"
+                className="stroke-zinc-300 drop-shadow-sm"
+                d="M 25 12 L 58 12 L 75 29 L 75 88 L 25 88 Z"
             />
-            {/* Document Fold */}
+            {/* Fold Corner */}
             <motion.path
-                initial={{ pathLength: 0, opacity: 0 }}
-                whileInView={{ pathLength: 1, opacity: 1 }}
+                initial={{ pathLength: 0 }}
+                whileInView={{ pathLength: 1 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: 1, ease: "easeOut" }}
-                d="M 60 15 L 60 30 L 75 30"
+                className="stroke-zinc-300 fill-zinc-50"
+                d="M 58 12 L 58 29 L 75 29 Z"
             />
-            {/* Static Lines */}
-            <motion.line x1="40" y1="45" x2="65" y2="45" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }} className="origin-left" />
-            <motion.line x1="40" y1="55" x2="65" y2="55" initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }} transition={{ delay: 0.6 }} className="origin-left" />
 
-            {/* Animated Live Entry Line */}
-            <motion.line x1="40" y1="70" x2="55" y2="70"
-                className="stroke-[#74573e]" strokeWidth="2" strokeLinecap="round"
-                initial={{ scaleX: 0 }} whileInView={{ scaleX: 1 }} viewport={{ once: true }}
-                animate={{ opacity: [1, 0.4, 1] }}
-                transition={{
-                    scaleX: { delay: 0.8, duration: 0.6, ease: "easeOut" },
-                    opacity: { duration: 1.5, repeat: Infinity, ease: "linear" }
-                }}
-            />
-            <motion.circle cx="32" cy="70" r="2" className="fill-[#74573e] stroke-none"
-                animate={{ opacity: [1, 0, 1] }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-            />
+            {/* Document Header block */}
+            <motion.rect x="35" y="38" width="8" height="8" rx="2" className="fill-zinc-200 stroke-none"
+                initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 1.2, type: 'spring' }} />
+            <motion.line x1="48" y1="42" x2="65" y2="42" className="stroke-zinc-300" strokeLinecap="round" strokeWidth="2.5"
+                initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ delay: 1.3 }} />
+
+            <motion.line x1="35" y1="52" x2="65" y2="52" className="stroke-zinc-200" strokeWidth="1" strokeDasharray="2 2"
+                initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 1.5 }} />
+
+            {/* Mask for Ledger Entries */}
+            <clipPath id="ledger-mask">
+                <rect x="30" y="55" width="40" height="28" />
+            </clipPath>
+
+            {/* Real-time scrolling entries */}
+            <motion.g clipPath="url(#ledger-mask)">
+                <motion.g
+                    initial={{ y: 0 }}
+                    animate={{ y: -14 }}
+                    transition={{ duration: 1.8, ease: "linear", repeat: Infinity }}
+                >
+                    {[0, 1, 2, 3].map(i => (
+                        <g key={i} transform={`translate(0, ${58 + i * 14})`}>
+                            {/* Bullet / Hash Indicator */}
+                            <circle cx="36" cy="0" r="2.5" className={i === 2 ? "fill-[#74573e]" : "fill-zinc-200"} />
+                            {/* Data Lines */}
+                            <line x1="42" y1="-1" x2="64" y2="-1" className={i === 2 ? "stroke-[#74573e]/70" : "stroke-zinc-200"} strokeLinecap="round" strokeWidth="2" />
+                            <line x1="42" y1="3" x2="56" y2="3" className="stroke-zinc-200/60" strokeLinecap="round" strokeWidth="1.5" />
+                        </g>
+                    ))}
+                </motion.g>
+            </motion.g>
+
+            {/* Incoming Data Feed removed */}
+
+
+            {/* Fade Gradients for smooth scrolling illusion */}
+            <rect x="30" y="54" width="40" height="6" fill="url(#ledger-fade-top)" />
+            <rect x="30" y="78" width="40" height="6" fill="url(#ledger-fade-bottom)" />
+
+            <defs>
+                <linearGradient id="ledger-fade-top" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                </linearGradient>
+                <linearGradient id="ledger-fade-bottom" x1="0" y1="1" x2="0" y2="0">
+                    <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
+                </linearGradient>
+            </defs>
         </svg>
     </div>
 );
@@ -155,21 +194,21 @@ const pillars = [
     {
         title: "Verified Participants",
         desc: "Every actor is cryptographically authenticated, ensuring a flawless and trustworthy environment free of fraudulent entities.",
-        Visual: VerifiedUsersVisual
+        Visual: VerifiedParticipantsVisual
     },
     {
         title: "Real-Time Ledger",
-        desc: "All system modifications and transactions are recorded immutably to a decentralized, tamper-proof system log.",
+        desc: "All system modifications and activity are recorded immutably to a decentralized, tamper-proof system log.",
         Visual: LedgerVisual
     },
     {
         title: "Immutable Ownership",
-        desc: "Indisputable digital records establish chain of title, removing traditional friction and securing historical chains.",
+        desc: "Indisputable digital records establish chain of activity, removing traditional friction and securing historical chains.",
         Visual: OwnershipVisual
     },
     {
         title: "Enterprise Encryption",
-        desc: "Bank-grade infrastructure protects platform data continuously, shielding assets and privacy at the protocol layer.",
+        desc: "Institutional-grade infrastructure protects platform data continuously, shielding assets and privacy at the protocol layer.",
         Visual: EncryptionVisual
     }
 ];

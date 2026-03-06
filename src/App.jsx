@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
-import DigitalMarketScreen from './components/DigitalMarketScreen';
+import UrbanActivityScreen from './components/DigitalMarketScreen';
+import CityLayerSection from './components/CityLayerSection';
 import DeveloperScreen from './components/DeveloperScreen';
 import FAQSection from './components/FAQSection';
 import Footer from './components/Footer';
@@ -12,8 +13,12 @@ import Navigation from './components/Navigation';
 import Preloader from './components/Preloader';
 import SecondSection from './components/SecondSection';
 import TransparencySecurityScreen from './components/TransparencySecurityScreen';
+import CityMapScreen from './components/CityMapScreen';
+import PropertyOverviewSection from './components/PropertyOverviewSection';
+import LaunchPhaseSection from './components/LaunchPhaseSection';
+import LiveActivityEnvironment from './components/LiveActivityEnvironment';
 
-function IntroSequence() {
+function IntroSequence({ preloaderActive }) {
   const sequenceRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: sequenceRef,
@@ -35,7 +40,7 @@ function IntroSequence() {
     <section ref={sequenceRef} className="relative h-[1200vh]">
       <div className="sticky top-0 h-screen overflow-hidden">
         <motion.div style={{ zIndex: heroZ, display: heroDisplay }} className="absolute inset-0">
-          <HeroPage progress={heroProgress} />
+          <HeroPage progress={heroProgress} preloaderActive={preloaderActive} />
         </motion.div>
         <motion.div style={{ zIndex: secondZ, display: secondDisplay }} className="absolute inset-0">
           <SecondSection progress={scrollYProgress} />
@@ -48,13 +53,18 @@ function IntroSequence() {
   );
 }
 
-function HomePage() {
+function HomePage({ preloaderActive }) {
   return (
     <div className="bg-[#111638] min-h-screen">
-      <IntroSequence />
-      <DigitalMarketScreen />
+      <IntroSequence preloaderActive={preloaderActive} />
+      <CityLayerSection />
+      <PropertyOverviewSection />
+      <LaunchPhaseSection />
+      <UrbanActivityScreen />
       <DeveloperScreen />
       <TransparencySecurityScreen />
+      <LiveActivityEnvironment />
+      <CityMapScreen />
       <FAQSection />
       <Footer />
     </div>
@@ -69,7 +79,7 @@ function AppShell() {
       {showPreloader ? <Preloader onComplete={() => setShowPreloader(false)} /> : null}
       <Navigation />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<HomePage preloaderActive={showPreloader} />} />
         <Route path="/map" element={<MapPage />} />
       </Routes>
     </>

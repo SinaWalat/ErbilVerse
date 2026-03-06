@@ -17,7 +17,7 @@ const TransparencySecurity = () => {
                         <span className="text-gradient">Transparency</span> Built In
                     </h2>
                     <p className="text-text-muted text-lg max-w-2xl mx-auto font-light">
-                        ErbilVerse operates on a foundation of trust, verifiable data, and secure digital infrastructure.
+                        ERBILVERSE operates on a foundation of trust, verifiable data, and secure digital infrastructure.
                     </p>
                 </motion.div>
 
@@ -33,7 +33,7 @@ const TransparencySecurity = () => {
                         <div className="w-16 h-16 rounded-2xl bg-primary/20 border border-primary-light flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(30,40,93,0.3)] group-hover:shadow-[0_0_30px_rgba(30,40,93,0.5)] transition-shadow">
                             <ShieldCheck size={32} className="text-white" />
                         </div>
-                        <h3 className="font-outfit text-xl font-medium mb-3">Verified Users</h3>
+                        <h3 className="font-outfit text-xl font-medium mb-3">Verified Participants</h3>
                         <p className="text-sm text-text-muted leading-relaxed">
                             Every participant in the ecosystem undergoes strict verification to ensure a secure, trusted community.
                         </p>
@@ -52,7 +52,7 @@ const TransparencySecurity = () => {
                         </div>
                         <h3 className="font-outfit text-xl font-medium mb-3">Real-Time Log</h3>
                         <p className="text-sm text-text-muted leading-relaxed">
-                            All market activity and property changes are recorded immutably and viewable instantly by the community.
+                            All platform activity and property changes are recorded immutably and viewable instantly by the community.
                         </p>
                     </motion.div>
 
@@ -68,7 +68,7 @@ const TransparencySecurity = () => {
                         </div>
                         <h3 className="font-outfit text-xl font-medium mb-3">Clear Records</h3>
                         <p className="text-sm text-text-muted leading-relaxed">
-                            Transparent ownership history and asset provenance prevent disputes and enable frictionless transactions.
+                            Transparent ownership history and asset provenance prevent disputes and enable frictionless interactions.
                         </p>
                     </motion.div>
 
@@ -84,7 +84,7 @@ const TransparencySecurity = () => {
                         </div>
                         <h3 className="font-outfit text-xl font-medium mb-3">Secure Environment</h3>
                         <p className="text-sm text-text-muted leading-relaxed">
-                            Bank-grade security protocols protect user data, assets, and communications across the entire platform.
+                            Platform-grade security protocols protect participant data, assets, and communications across the entire platform.
                         </p>
                     </motion.div>
 
