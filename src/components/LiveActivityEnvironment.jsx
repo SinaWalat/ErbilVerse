@@ -143,6 +143,7 @@ const LiveActivityEnvironment = () => {
                                 viewport={{ once: true, margin: "-50px" }}
                                 transition={{ duration: 0.6, delay: 0.2 + idx * 0.1 }}
                                 className="flex flex-col bg-white/[0.02] border border-white/5 rounded-2xl overflow-hidden hover:bg-white/[0.04] transition-colors duration-500"
+                                style={{ transform: 'translateZ(0)', willChange: 'transform, opacity' }}
                             >
                                 <Visual />
                                 <div className="p-8 flex-1 flex flex-col">

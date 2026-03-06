@@ -158,7 +158,8 @@ const AnimatedCityNetwork = ({ className }) => {
 const CityLayerSection = () => {
     return (
         <section
-            className="relative w-full py-16 md:py-32 xl:py-48 bg-[#111638] text-white overflow-hidden xl:min-h-[100vh] flex items-center"
+            className="relative w-full py-16 md:py-32 xl:py-48 bg-[#111638] text-white overflow-hidden xl:min-h-[100dvh] flex items-center"
+            style={{ transform: 'translateZ(0)' }}
         >
             {/* Dark gradient overlay to blend perfectly with background */}
             <div className="absolute inset-0 z-0 pointer-events-none bg-gradient-to-b from-[#111638] via-transparent to-[#111638] opacity-50" />

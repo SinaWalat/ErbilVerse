@@ -148,9 +148,17 @@ const InteractiveMapEffects = () => {
 
 const CityMapScreen = () => {
     const [activeSpot, setActiveSpot] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+        return () => window.removeEventListener("resize", checkMobile);
+    }, []);
 
     return (
-        <section className="relative w-full h-[100vh] bg-[#050714] overflow-hidden font-sans cursor-default">
+        <section className="relative w-full h-[100dvh] bg-[#050714] overflow-hidden font-sans cursor-default" style={{ touchAction: 'pan-y' }}>
 
             {/* 1. Immersive 3D Dark Map using mapcn */}
             <div className="absolute inset-0 z-0">
@@ -168,6 +176,8 @@ const CityMapScreen = () => {
                     theme="dark"
                     className="w-full h-full"
                     scrollZoom={false}
+                    dragPan={true}
+                    cooperativeGestures={true}
                 >
                     <InteractiveMapEffects />
 
@@ -240,6 +250,7 @@ const CityMapScreen = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
                     className="relative w-full bg-[#111638]/80 md:bg-[#111638]/60 backdrop-blur-3xl md:rounded-[2.5rem] p-5 md:p-10 shadow-[0_-20px_50px_rgba(0,0,0,0.5)] md:shadow-[0_40px_100px_-20px_rgba(0,0,0,0.7)] border-t md:border border-white/10 overflow-hidden pointer-events-auto"
+                    style={{ transform: 'translateZ(0)' }}
                 >
                     {/* Inner highlight */}
                     <div className="absolute inset-0 bg-gradient-to-br from-white/[0.05] to-transparent pointer-events-none" />

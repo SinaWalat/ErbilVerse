@@ -43,7 +43,15 @@ function IntroSequence({ preloaderActive }) {
           <HeroPage progress={heroProgress} preloaderActive={preloaderActive} />
         </motion.div>
         <motion.div style={{ zIndex: secondZ, display: secondDisplay }} className="absolute inset-0">
-          <SecondSection progress={scrollYProgress} />
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={preloaderActive ? { opacity: 0 } : { opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex flex-col items-center gap-6"
+            style={{ transform: 'translateZ(0)' }}
+          >
+            <SecondSection progress={scrollYProgress} />
+          </motion.div>
         </motion.div>
         <motion.div style={{ zIndex: horizontalZ, display: horizontalDisplay }} className="absolute inset-0">
           <HorizontalSection progress={scrollYProgress} />
@@ -55,7 +63,7 @@ function IntroSequence({ preloaderActive }) {
 
 function HomePage({ preloaderActive }) {
   return (
-    <div className="bg-[#111638] min-h-screen">
+    <div className="bg-[#111638] min-h-[100dvh]" style={{ touchAction: 'pan-y', transform: 'translateZ(0)' }}>
       <IntroSequence preloaderActive={preloaderActive} />
       <CityLayerSection />
       <PropertyOverviewSection />

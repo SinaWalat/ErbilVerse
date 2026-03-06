@@ -199,7 +199,8 @@ const HorizontalSection = ({ progress }) => {
                                 opacity: card1Opacity,
                                 filter: card1Blur,
                                 position: "absolute",
-                                zIndex: 1
+                                zIndex: 1,
+                                transform: 'translateZ(0)'
                             }}
                         >
                             <Card
@@ -248,7 +249,8 @@ const HorizontalSection = ({ progress }) => {
                                 opacity: card2Opacity,
                                 filter: card2Blur,
                                 position: "absolute",
-                                zIndex: 2
+                                zIndex: 2,
+                                transform: 'translateZ(0)'
                             }}
                         >
                             <Card
@@ -287,7 +289,8 @@ const HorizontalSection = ({ progress }) => {
                                 opacity: card3Opacity,
                                 filter: card3Blur,
                                 position: "absolute",
-                                zIndex: 3
+                                zIndex: 3,
+                                transform: 'translateZ(0)'
                             }}
                         >
                             <Card
@@ -330,7 +333,8 @@ const HorizontalSection = ({ progress }) => {
                                 opacity: card4Opacity,
                                 filter: card4Blur,
                                 position: "absolute",
-                                zIndex: 4
+                                zIndex: 4,
+                                transform: 'translateZ(0)'
                             }}
                         >
                             <Card
