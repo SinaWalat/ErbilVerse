@@ -39,7 +39,7 @@ function IntroSequence({ preloaderActive }) {
   return (
     <section ref={sequenceRef} className="relative h-[1200vh]" style={{ touchAction: 'pan-y' }}>
       <div className="sticky top-0 h-[100dvh] overflow-hidden">
-        <motion.div style={{ zIndex: heroZ, display: heroDisplay }} className="absolute inset-0">
+        <motion.div style={{ zIndex: heroZ, display: heroDisplay }} className="absolute inset-0 pointer-events-none">
           <HeroPage progress={heroProgress} preloaderActive={preloaderActive} />
         </motion.div>
         <motion.div style={{ zIndex: secondZ, display: secondDisplay }} className="absolute inset-0 h-full w-full">

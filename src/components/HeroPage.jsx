@@ -15,7 +15,7 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
             className="absolute inset-0 z-0 flex flex-col items-center justify-center"
         >
             {/* The Globe Background - pointer-events: none on touch to prevent scroll blocking */}
-            <div className="w-full h-full bg-transparent absolute inset-0 z-0 pointer-events-none md:pointer-events-auto" style={{ touchAction: 'pan-y' }}>
+            <div className="w-full h-full bg-transparent absolute inset-0 z-0 pointer-events-none md:pointer-events-auto">
                 <DataGlobe coreColor="#111638" />
             </div>
 
@@ -105,8 +105,8 @@ const HeroPage = ({ ready, progress, preloaderActive }) => {
 
     return (
         <motion.div
-            style={{ opacity, touchAction: 'pan-y', transform: 'translateZ(0)' }}
-            className="relative min-h-[100dvh] w-full bg-[#111638] selection:bg-[#74573e] selection:text-white"
+            style={{ opacity, transform: 'translateZ(0)' }}
+            className="relative min-h-[100dvh] w-full bg-[#111638] selection:bg-[#74573e] selection:text-white pointer-events-none"
         >
             <HeroContent ready={ready} progress={progress} preloaderActive={preloaderActive} />
         </motion.div>

@@ -83,7 +83,7 @@ const FAQSection = () => {
     };
 
     return (
-        <section className="w-full py-32 md:py-48 bg-white text-zinc-900 pb-32">
+        <section className="w-full py-32 md:py-48 bg-white text-zinc-900 pb-32" style={{ transform: 'translateZ(0)' }}>
             <div className="max-w-[1200px] mx-auto w-full px-6 md:px-12">
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24">
                     {/* Left: Branding/Header */}
@@ -118,7 +118,7 @@ const FAQSection = () => {
                             className="flex flex-col border-t border-zinc-200"
                         >
                             {faqs.map((faq, index) => (
-                                <motion.div key={index} variants={itemVariants}>
+                                <motion.div key={index} variants={itemVariants} style={{ transform: 'translateZ(0)' }}>
                                     <FAQItem
                                         faq={faq}
                                         isOpen={openIndex === index}

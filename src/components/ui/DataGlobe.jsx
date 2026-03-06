@@ -259,10 +259,12 @@ export default function DataGlobe({ coreColor = "#0a0a0a" }) {
     }, []);
 
     return (
-        <div className="w-full h-full bg-transparent absolute inset-0 z-0 pointer-events-none md:pointer-events-auto" style={{ touchAction: 'pan-y' }}>
+        <div className="w-full h-full bg-transparent absolute inset-0 z-0 pointer-events-none md:pointer-events-auto">
             <Canvas
                 camera={{ position: [0, 0, 4.0], fov: 45 }}
                 dpr={[1, 2]}
+                style={{ pointerEvents: 'none' }}
+                className="md:!pointer-events-auto"
             >
                 <RotationLogic target={targetRotation} current={currentRotation} groupRef={groupRef} />
 

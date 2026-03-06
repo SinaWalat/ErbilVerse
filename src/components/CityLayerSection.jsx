@@ -19,7 +19,7 @@ const AnimatedCityNetwork = ({ className }) => {
     ];
 
     return (
-        <div className={`relative pointer-events-auto ${className || ''}`}>
+        <div className={`relative pointer-events-auto ${className || ''}`} style={{ transform: 'translateZ(0)' }}>
             <svg viewBox="0 0 800 800" className="w-full h-full cursor-crosshair" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <radialGradient id="netGlow" cx="50%" cy="50%" r="50%">
@@ -234,6 +234,7 @@ const CityLayerSection = () => {
                 <div className="xl:col-span-6 2xl:col-span-7 h-full relative flex items-center justify-center min-h-[300px] md:min-h-[400px] xl:min-h-0 w-full xl:z-20 xl:pointer-events-none">
                     <div
                         className="w-full max-w-[500px] aspect-square md:w-[70vw] md:h-[70vw] xl:absolute xl:top-[-10%] 2xl:top-[-20%] xl:right-[-4%] 2xl:right-[-6%] xl:w-[65vw] 2xl:w-[65vw] max-w-[900px] max-h-[900px] opacity-100 z-0"
+                        style={{ transform: 'translateZ(0)' }}
                     >
                         <AnimatedCityNetwork />
                     </div>
