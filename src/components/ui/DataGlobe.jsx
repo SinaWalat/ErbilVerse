@@ -259,7 +259,7 @@ export default function DataGlobe({ coreColor = "#0a0a0a" }) {
     }, []);
 
     return (
-        <div className="w-full h-full bg-transparent absolute inset-0 z-0">
+        <div className="w-full h-full bg-transparent absolute inset-0 z-0" style={{ touchAction: 'pan-y' }}>
             <Canvas
                 camera={{ position: [0, 0, 4.0], fov: 45 }}
                 dpr={[1, 2]}

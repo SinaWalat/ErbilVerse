@@ -37,8 +37,8 @@ function IntroSequence({ preloaderActive }) {
   const horizontalDisplay = useTransform(scrollYProgress, (v) => v > 0.6 ? 'block' : 'none');
 
   return (
-    <section ref={sequenceRef} className="relative h-[1200vh]">
-      <div className="sticky top-0 h-screen overflow-hidden">
+    <section ref={sequenceRef} className="relative h-[1200vh]" style={{ touchAction: 'pan-y' }}>
+      <div className="sticky top-0 h-[100dvh] overflow-hidden">
         <motion.div style={{ zIndex: heroZ, display: heroDisplay }} className="absolute inset-0">
           <HeroPage progress={heroProgress} preloaderActive={preloaderActive} />
         </motion.div>

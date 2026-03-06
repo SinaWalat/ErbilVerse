@@ -15,7 +15,7 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
             className="absolute inset-0 z-0 flex flex-col items-center justify-center"
         >
             {/* The Globe Background */}
-            <div className="absolute inset-0 z-0 pointer-events-auto">
+            <div className="w-full h-full bg-transparent absolute inset-0 z-0 pointer-events-auto" style={{ touchAction: 'pan-y' }}>
                 <DataGlobe coreColor="#111638" />
             </div>
 
@@ -104,7 +104,7 @@ const HeroPage = ({ ready, progress, preloaderActive }) => {
     const opacity = useTransform(progress, [0, 0.15, 0.25, 0.3], [1, 1, 1, 0]);
 
     return (
-        <motion.div style={{ opacity }} className="relative min-h-[100dvh] w-full bg-[#111638] overflow-hidden selection:bg-[#74573e] selection:text-white">
+        <motion.div style={{ opacity, touchAction: 'pan-y' }} className="relative min-h-[100dvh] w-full bg-[#111638] selection:bg-[#74573e] selection:text-white">
             <HeroContent ready={ready} progress={progress} preloaderActive={preloaderActive} />
         </motion.div>
     );
