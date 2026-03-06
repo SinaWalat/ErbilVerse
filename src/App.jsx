@@ -42,12 +42,12 @@ function IntroSequence({ preloaderActive }) {
         <motion.div style={{ zIndex: heroZ, display: heroDisplay }} className="absolute inset-0">
           <HeroPage progress={heroProgress} preloaderActive={preloaderActive} />
         </motion.div>
-        <motion.div style={{ zIndex: secondZ, display: secondDisplay }} className="absolute inset-0">
+        <motion.div style={{ zIndex: secondZ, display: secondDisplay }} className="absolute inset-0 h-full w-full">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={preloaderActive ? { opacity: 0 } : { opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col items-center gap-6"
+            className="flex flex-col items-center justify-center h-full w-full"
             style={{ transform: 'translateZ(0)' }}
           >
             <SecondSection progress={scrollYProgress} />

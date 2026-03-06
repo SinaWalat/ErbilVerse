@@ -28,7 +28,7 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
                     initial={{ opacity: 0, y: 10 }}
                     animate={preloaderActive ? { opacity: 0 } : { opacity: 1 }}
                     transition={{ duration: 0.8, delay: 0.1 }}
-                    className="pointer-events-auto mb-4"
+                    className="pointer-events-none mb-4"
                 >
                     <span className="text-[#74573e] text-[10px] md:text-xs font-bold tracking-[0.4em] uppercase">
                         THE DIGITAL LAYER OF REAL ESTATE
@@ -39,7 +39,7 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={preloaderActive ? { opacity: 0 } : { opacity: 1 }}
                     transition={{ duration: 1, delay: 0.2 }}
-                    className="pointer-events-auto text-white text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight text-center mb-6 leading-none"
+                    className="pointer-events-none text-white text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight text-center mb-6 leading-none"
                 >
                     ERBILVERSE
                 </motion.h1>
@@ -50,7 +50,7 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
                     transition={{ duration: 1, delay: 0.3 }}
                     className="flex flex-col items-center gap-6"
                 >
-                    <p className="pointer-events-auto text-gray-200 text-center text-base md:text-2xl max-w-3xl font-light leading-relaxed px-4">
+                    <p className="pointer-events-none text-gray-200 text-center text-base md:text-2xl max-w-3xl font-light leading-relaxed px-4">
                         ERBILVERSE is a unified digital environment where real estate activity across the city becomes continuously visible and interactive.
                     </p>
 

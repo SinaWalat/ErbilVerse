@@ -28,10 +28,10 @@ const SecondSection = ({ progress }) => {
                             const opacity = useTransform(localProgress, [start, end, textFadeOutStart, textFadeOutEnd], [0, 1, 1, 0]);
 
                             // Map the scroll progress to a blur filter (soft focus effect)
-                            const filter = useTransform(localProgress, [start, end, textFadeOutStart, textFadeOutEnd], ["blur(12px)", "blur(0px)", "blur(0px)", "blur(12px)"]);
+                            const filter = useTransform(localProgress, [start, end, textFadeOutStart, textFadeOutEnd], ["blur(4px)", "blur(0px)", "blur(0px)", "blur(4px)"]);
 
                             // Add a slight translation for a cinematic settling effect
-                            const y = useTransform(localProgress, [start, end], [20, 0]);
+                            const y = useTransform(localProgress, [start, end], [10, 0]);
 
                             // Alternate between white and the brand bronze/gold for certain words 
                             const isGoldWord = word.toLowerCase() === 'spatial' || word.toLowerCase() === 'sanctuary.';
