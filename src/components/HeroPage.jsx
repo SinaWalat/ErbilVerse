@@ -14,43 +14,45 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
     // They start fading in at 0.22, fully visible at 0.25
     // They fade out between 0.30 and 0.35 alongside the canvas and overlay
     const contentOpacity = useTransform(progress, [0, 0.22, 0.25, 0.30, 0.35], [0, 0, 1, 1, 0]);
-    
+
     // 3. Scroll Guidance Indicator at bottom center (fades out immediately as user starts scrolling)
     const scrollGuidanceOpacity = useTransform(progress, [0, 0.05], [1, 0]);
-    
+
     // 431 frames extracted
     const frameCount = 431;
     const canvasRef = useRef(null);
     const [images, setImages] = useState([]);
-    
+
     // Preload images
     useEffect(() => {
         const loadedImages = [];
-        let loadedCount = 0;
-        
+
         for (let i = 1; i <= frameCount; i++) {
             const img = new Image();
             const frameIndex = String(i).padStart(4, '0');
-            img.src = `/hero-frames/frame-${frameIndex}.jpg`;
+            img.src = `https://pub-5b73abe3c7c84cb182ef6b6155e55ce6.r2.dev/HeroFrames/frame-${frameIndex}.jpg`;
+
             img.onload = () => {
-                loadedCount++;
-                if (loadedCount === frameCount) {
-                    setImages(loadedImages);
-                }
+                // Redraw whenever an image finishes loading, in case it's the frame we currently need
+                renderCurrentFrame(loadedImages);
             };
+
             loadedImages.push(img);
         }
+
+        // Immediately make the array available so the canvas can start drawing the first frame as soon as it's ready.
+        setImages(loadedImages);
     }, [frameCount]);
 
     const drawFrame = (ctx, img, canvasWidth, canvasHeight) => {
         if (!img) return;
-        
+
         // Calculate object-cover equivalent drawing
         const imgRatio = img.width / img.height;
         const canvasRatio = canvasWidth / canvasHeight;
-        
+
         let drawWidth, drawHeight, offsetX, offsetY;
-        
+
         if (canvasRatio > imgRatio) {
             drawWidth = canvasWidth;
             drawHeight = canvasWidth / imgRatio;
@@ -62,26 +64,28 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
             offsetX = (canvasWidth - drawWidth) / 2;
             offsetY = 0;
         }
-        
+
         ctx.clearRect(0, 0, canvasWidth, canvasHeight);
         ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
     };
 
     const renderCurrentFrame = (imgs) => {
-        if (!canvasRef.current || imgs.length < frameCount) return;
-        
+        if (!canvasRef.current || imgs.length === 0) return;
+
         const ctx = canvasRef.current.getContext('2d');
         const currentProgress = progress.get ? progress.get() : 0;
         const normalizedProgress = Math.min(Math.max(currentProgress / 0.30, 0), 1);
-        
+
         const frameIndex = Math.min(
             Math.floor(normalizedProgress * (frameCount - 1)),
             frameCount - 1
         );
-        
+
         requestAnimationFrame(() => {
-            if (canvasRef.current && imgs[frameIndex]) {
-                drawFrame(ctx, imgs[frameIndex], canvasRef.current.width, canvasRef.current.height);
+            const imgToDraw = imgs[frameIndex];
+            // Only draw if the image exists and has fully downloaded
+            if (canvasRef.current && imgToDraw && imgToDraw.complete) {
+                drawFrame(ctx, imgToDraw, canvasRef.current.width, canvasRef.current.height);
             }
         });
     };
@@ -99,16 +103,16 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
                 renderCurrentFrame(images);
             }
         };
-        
+
         // Set up dimensions
         if (canvasRef.current) {
             canvasRef.current.width = window.innerWidth;
             canvasRef.current.height = window.innerHeight;
         }
-        
+
         // Paint immediately if images are ready
         renderCurrentFrame(images);
-        
+
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, [images]);
@@ -126,9 +130,9 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
             </motion.div>
 
             {/* Bottom-to-top dark overlay so text is readable */}
-            <motion.div 
+            <motion.div
                 style={{ opacity: overlayOpacity }}
-                className="absolute inset-0 z-[5] bg-gradient-to-t from-[#111638] via-[#111638]/60 to-transparent pointer-events-none" 
+                className="absolute inset-0 z-[5] bg-gradient-to-t from-[#111638] via-[#111638]/60 to-transparent pointer-events-none"
             />
 
             {/* Overlay Typography */}
@@ -195,16 +199,16 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
                     </div>
                 </motion.div>
             </div>
-            
+
             {/* Scroll Guidance Indicator */}
-            <motion.div 
+            <motion.div
                 style={{ opacity: scrollGuidanceOpacity }}
                 className="absolute bottom-8 left-0 right-0 z-20 flex flex-col items-center justify-center pointer-events-none"
             >
                 <motion.div
                     initial={{ opacity: 0, y: -10 }}
                     animate={preloaderActive ? { opacity: 0 } : { opacity: 1, y: 0 }}
-                    transition={{ duration: 1, delay: 1 }}
+                    transition={{ duration: 0.3, delay: 0.15 }}
                     className="flex flex-col items-center gap-2"
                 >
                     <span className="text-white/60 text-[10px] md:text-xs tracking-[0.2em] font-light uppercase">Scroll to Explore</span>
