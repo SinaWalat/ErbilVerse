@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { motion, useTransform, useMotionValueEvent } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
@@ -21,7 +21,7 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
     // 431 frames extracted
     const frameCount = 431;
     const canvasRef = useRef(null);
-    const [images, setImages] = useState([]);
+    const imagesRef = useRef([]);
 
     // Preload images
     useEffect(() => {
@@ -33,15 +33,15 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
             img.src = `https://pub-5b73abe3c7c84cb182ef6b6155e55ce6.r2.dev/HeroFrames/frame-${frameIndex}.jpg`;
 
             img.onload = () => {
-                // Redraw whenever an image finishes loading, in case it's the frame we currently need
-                renderCurrentFrame(loadedImages);
+                // Redraw whenever an image finishes loading
+                renderCurrentFrame();
             };
 
             loadedImages.push(img);
         }
 
-        // Immediately make the array available so the canvas can start drawing the first frame as soon as it's ready.
-        setImages(loadedImages);
+        // Store in ref so the scroll handler always has the latest reference
+        imagesRef.current = loadedImages;
     }, [frameCount]);
 
     const drawFrame = (ctx, img, canvasWidth, canvasHeight) => {
@@ -69,7 +69,8 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
         ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
     };
 
-    const renderCurrentFrame = (imgs) => {
+    const renderCurrentFrame = () => {
+        const imgs = imagesRef.current;
         if (!canvasRef.current || imgs.length === 0) return;
 
         const ctx = canvasRef.current.getContext('2d');
@@ -81,17 +82,15 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
             frameCount - 1
         );
 
-        requestAnimationFrame(() => {
-            const imgToDraw = imgs[frameIndex];
-            // Only draw if the image exists and has fully downloaded
-            if (canvasRef.current && imgToDraw && imgToDraw.complete) {
-                drawFrame(ctx, imgToDraw, canvasRef.current.width, canvasRef.current.height);
-            }
-        });
+        const imgToDraw = imgs[frameIndex];
+        // Only draw if the image exists and has fully downloaded
+        if (imgToDraw && imgToDraw.complete) {
+            drawFrame(ctx, imgToDraw, canvasRef.current.width, canvasRef.current.height);
+        }
     };
 
     useMotionValueEvent(progress, 'change', () => {
-        renderCurrentFrame(images);
+        renderCurrentFrame();
     });
 
     // Handle initial paint and resize
@@ -100,7 +99,7 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
             if (canvasRef.current) {
                 canvasRef.current.width = window.innerWidth;
                 canvasRef.current.height = window.innerHeight;
-                renderCurrentFrame(images);
+                renderCurrentFrame();
             }
         };
 
@@ -111,11 +110,11 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
         }
 
         // Paint immediately if images are ready
-        renderCurrentFrame(images);
+        renderCurrentFrame();
 
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, [images]);
+    }, []);
 
     return (
         <motion.main
