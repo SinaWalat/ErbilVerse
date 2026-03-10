@@ -82,9 +82,28 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
             frameCount - 1
         );
 
-        const imgToDraw = imgs[frameIndex];
-        // Only draw if the image exists and has fully downloaded
-        if (imgToDraw && imgToDraw.complete) {
+        // Find the best frame to draw: target frame if loaded, otherwise nearest loaded frame
+        let imgToDraw = null;
+        if (imgs[frameIndex] && imgs[frameIndex].complete && imgs[frameIndex].naturalWidth > 0) {
+            imgToDraw = imgs[frameIndex];
+        } else {
+            // Search outward from the target frame for the nearest loaded one
+            for (let offset = 1; offset < frameCount; offset++) {
+                const before = frameIndex - offset;
+                const after = frameIndex + offset;
+                if (before >= 0 && imgs[before] && imgs[before].complete && imgs[before].naturalWidth > 0) {
+                    imgToDraw = imgs[before];
+                    break;
+                }
+                if (after < frameCount && imgs[after] && imgs[after].complete && imgs[after].naturalWidth > 0) {
+                    imgToDraw = imgs[after];
+                    break;
+                }
+                if (before < 0 && after >= frameCount) break;
+            }
+        }
+
+        if (imgToDraw) {
             drawFrame(ctx, imgToDraw, canvasRef.current.width, canvasRef.current.height);
         }
     };
