@@ -1,4 +1,5 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import Lenis from 'lenis';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'motion/react';
 import UrbanActivityScreen from './components/DigitalMarketScreen';
@@ -24,14 +25,12 @@ function IntroSequence({ preloaderActive }) {
     target: sequenceRef,
     offset: ['start start', 'end end'],
   });
-  const heroProgress = useTransform(scrollYProgress, [0, 0.2], [0, 0.15]);
+  // Hero plays from 0 to 0.30
+  const heroZ = useTransform(scrollYProgress, [0, 0.3, 0.35], [10, 10, 0]);
+  const heroDisplay = useTransform(scrollYProgress, (v) => v < 0.4 ? 'block' : 'none');
 
-  // Robust sequencing - Giving SecondSection more room
-  const heroZ = useTransform(scrollYProgress, [0, 0.2, 0.25], [10, 10, 0]);
-  const heroDisplay = useTransform(scrollYProgress, (v) => v < 0.25 ? 'block' : 'none');
-
-  const secondZ = useTransform(scrollYProgress, [0, 0.15, 0.2, 0.7, 0.75], [0, 0, 20, 20, 0]);
-  const secondDisplay = useTransform(scrollYProgress, (v) => v > 0.15 && v < 0.75 ? 'block' : 'none');
+  const secondZ = useTransform(scrollYProgress, [0, 0.3, 0.35, 0.7, 0.75], [0, 0, 20, 20, 0]);
+  const secondDisplay = useTransform(scrollYProgress, (v) => v > 0.3 && v < 0.75 ? 'block' : 'none');
 
   const horizontalZ = useTransform(scrollYProgress, [0, 0.65, 0.7], [0, 0, 30]);
   const horizontalDisplay = useTransform(scrollYProgress, (v) => v > 0.6 ? 'block' : 'none');
@@ -40,7 +39,7 @@ function IntroSequence({ preloaderActive }) {
     <section ref={sequenceRef} className="relative h-[1200vh]" style={{ touchAction: 'pan-y' }}>
       <div className="sticky top-0 h-[100dvh] overflow-hidden">
         <motion.div style={{ zIndex: heroZ, display: heroDisplay }} className="absolute inset-0 pointer-events-none">
-          <HeroPage progress={heroProgress} preloaderActive={preloaderActive} />
+          <HeroPage progress={scrollYProgress} preloaderActive={preloaderActive} />
         </motion.div>
         <motion.div style={{ zIndex: secondZ, display: secondDisplay }} className="absolute inset-0 h-full w-full">
           <motion.div
@@ -81,6 +80,21 @@ function HomePage({ preloaderActive }) {
 
 function AppShell() {
   const [showPreloader, setShowPreloader] = useState(true);
+
+  useEffect(() => {
+    const lenis = new Lenis();
+    
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+    
+    requestAnimationFrame(raf);
+    
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
 
   return (
     <>

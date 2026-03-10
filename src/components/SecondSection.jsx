@@ -6,8 +6,8 @@ const sentence = "Modern life fatigues the mind. We build spatial experiences th
 const SecondSection = ({ progress }) => {
     // We map the global progress to a local progress so the text animation only happens
     // during Phase 2 of the unified timeline
-    const localProgress = useTransform(progress, [0.2, 0.7], [0, 1]);
-    const containerOpacity = useTransform(progress, [0.15, 0.2, 0.7, 0.75], [0, 1, 1, 0]);
+    const localProgress = useTransform(progress, [0.35, 0.65], [0, 1]);
+    const containerOpacity = useTransform(progress, [0.3, 0.35, 0.65, 0.7], [0, 1, 1, 0]);
     const words = sentence.split(" ");
 
     return (
