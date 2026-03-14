@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { motion, useTransform, useMotionValueEvent } from 'motion/react';
 import { useNavigate } from 'react-router-dom';
 import Navigation from './Navigation';
@@ -18,122 +18,226 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
     // 3. Scroll Guidance Indicator at bottom center (fades out immediately as user starts scrolling)
     const scrollGuidanceOpacity = useTransform(progress, [0, 0.05], [1, 0]);
 
-    // 431 frames extracted
-    const frameCount = 431;
     const canvasRef = useRef(null);
-    const imagesRef = useRef([]);
+    const videoRef = useRef(null);
+    const videoReadyRef = useRef(false);
+    const isSeekingRef = useRef(false);
+    const pendingSeekRef = useRef(null);
+    const frameCacheRef = useRef(new Map());
+    const lastDrawnFrameRef = useRef(-1);
 
-    // Preload images
-    useEffect(() => {
-        const loadedImages = [];
+    const TOTAL_FRAMES = 431;
+    const VIDEO_URL = 'https://pub-5b73abe3c7c84cb182ef6b6155e55ce6.r2.dev/Video/VideoHeroNew.MP4';
 
-        for (let i = 1; i <= frameCount; i++) {
-            const img = new Image();
-            const frameIndex = String(i).padStart(4, '0');
-            img.src = `https://pub-5b73abe3c7c84cb182ef6b6155e55ce6.r2.dev/HeroFrames/frame-${frameIndex}.jpg`;
+    // Convert scroll progress to frame index
+    const getFrameIndex = useCallback((p) => {
+        const normalized = Math.min(Math.max(p / 0.30, 0), 1);
+        return Math.min(Math.floor(normalized * (TOTAL_FRAMES - 1)), TOTAL_FRAMES - 1);
+    }, []);
 
-            img.onload = () => {
-                // Redraw whenever an image finishes loading
-                renderCurrentFrame();
-            };
+    // Draw a source (video or offscreen canvas) to the main canvas with object-cover
+    const drawToCanvas = useCallback((source, srcW, srcH) => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const cw = canvas.width;
+        const ch = canvas.height;
+        const srcRatio = srcW / srcH;
+        const canvasRatio = cw / ch;
+        let dw, dh, ox, oy;
+        if (canvasRatio > srcRatio) {
+            dw = cw; dh = cw / srcRatio; ox = 0; oy = (ch - dh) / 2;
+        } else {
+            dw = ch * srcRatio; dh = ch; ox = (cw - dw) / 2; oy = 0;
+        }
+        ctx.clearRect(0, 0, cw, ch);
+        ctx.drawImage(source, ox, oy, dw, dh);
+    }, []);
 
-            loadedImages.push(img);
+    // Cache a video frame by drawing it to a small offscreen canvas (no CORS needed)
+    const cacheVideoFrame = useCallback((video, frameIdx) => {
+        if (frameCacheRef.current.has(frameIdx)) return;
+        const oc = document.createElement('canvas');
+        oc.width = video.videoWidth;
+        oc.height = video.videoHeight;
+        oc.getContext('2d').drawImage(video, 0, 0);
+        frameCacheRef.current.set(frameIdx, oc);
+    }, []);
+
+    // Draw the best available frame
+    const drawFrame = useCallback((p) => {
+        const frameIdx = getFrameIndex(p);
+        if (frameIdx === lastDrawnFrameRef.current) return;
+
+        // 1. Try cached frame (instant - no decode, no seek)
+        const cached = frameCacheRef.current.get(frameIdx);
+        if (cached) {
+            drawToCanvas(cached, cached.width, cached.height);
+            lastDrawnFrameRef.current = frameIdx;
+            return;
         }
 
-        // Store in ref so the scroll handler always has the latest reference
-        imagesRef.current = loadedImages;
-    }, [frameCount]);
-
-    const drawFrame = (ctx, img, canvasWidth, canvasHeight) => {
-        if (!img) return;
-
-        // Calculate object-cover equivalent drawing
-        const imgRatio = img.width / img.height;
-        const canvasRatio = canvasWidth / canvasHeight;
-
-        let drawWidth, drawHeight, offsetX, offsetY;
-
-        if (canvasRatio > imgRatio) {
-            drawWidth = canvasWidth;
-            drawHeight = canvasWidth / imgRatio;
-            offsetX = 0;
-            offsetY = (canvasHeight - drawHeight) / 2;
-        } else {
-            drawWidth = canvasHeight * imgRatio;
-            drawHeight = canvasHeight;
-            offsetX = (canvasWidth - drawWidth) / 2;
-            offsetY = 0;
+        // 2. Show nearest cached frame while we wait for exact frame
+        for (let offset = 1; offset <= 15; offset++) {
+            const before = frameCacheRef.current.get(frameIdx - offset);
+            if (before) { drawToCanvas(before, before.width, before.height); lastDrawnFrameRef.current = frameIdx - offset; break; }
+            const after = frameCacheRef.current.get(frameIdx + offset);
+            if (after) { drawToCanvas(after, after.width, after.height); lastDrawnFrameRef.current = frameIdx + offset; break; }
         }
 
-        ctx.clearRect(0, 0, canvasWidth, canvasHeight);
-        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-    };
-
-    const renderCurrentFrame = () => {
-        const imgs = imagesRef.current;
-        if (!canvasRef.current || imgs.length === 0) return;
-
-        const ctx = canvasRef.current.getContext('2d');
-        const currentProgress = progress.get ? progress.get() : 0;
-        const normalizedProgress = Math.min(Math.max(currentProgress / 0.30, 0), 1);
-
-        const frameIndex = Math.min(
-            Math.floor(normalizedProgress * (frameCount - 1)),
-            frameCount - 1
-        );
-
-        // Find the best frame to draw: target frame if loaded, otherwise nearest loaded frame
-        let imgToDraw = null;
-        if (imgs[frameIndex] && imgs[frameIndex].complete && imgs[frameIndex].naturalWidth > 0) {
-            imgToDraw = imgs[frameIndex];
-        } else {
-            // Search outward from the target frame for the nearest loaded one
-            for (let offset = 1; offset < frameCount; offset++) {
-                const before = frameIndex - offset;
-                const after = frameIndex + offset;
-                if (before >= 0 && imgs[before] && imgs[before].complete && imgs[before].naturalWidth > 0) {
-                    imgToDraw = imgs[before];
-                    break;
-                }
-                if (after < frameCount && imgs[after] && imgs[after].complete && imgs[after].naturalWidth > 0) {
-                    imgToDraw = imgs[after];
-                    break;
-                }
-                if (before < 0 && after >= frameCount) break;
+        // 3. Seek primary video to exact frame (async)
+        const video = videoRef.current;
+        if (video && videoReadyRef.current && video.duration) {
+            const t = (frameIdx / (TOTAL_FRAMES - 1)) * video.duration;
+            if (isSeekingRef.current) {
+                pendingSeekRef.current = t;
+            } else {
+                isSeekingRef.current = true;
+                video.currentTime = t;
             }
         }
+    }, [getFrameIndex, drawToCanvas]);
 
-        if (imgToDraw) {
-            drawFrame(ctx, imgToDraw, canvasRef.current.width, canvasRef.current.height);
+    // PRIMARY video: used for scroll-driven seeking
+    useEffect(() => {
+        const video = document.createElement('video');
+        video.src = VIDEO_URL;
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = 'auto';
+        video.pause();
+        videoRef.current = video;
+
+        const onLoadedData = () => {
+            videoReadyRef.current = true;
+            // Draw initial frame
+            const p = progress.get ? progress.get() : 0;
+            const normalized = Math.min(Math.max(p / 0.30, 0), 1);
+            video.currentTime = normalized * video.duration;
+        };
+
+        const onSeeked = () => {
+            const frameIdx = Math.round((video.currentTime / video.duration) * (TOTAL_FRAMES - 1));
+
+            // Draw it
+            drawToCanvas(video, video.videoWidth, video.videoHeight);
+            lastDrawnFrameRef.current = frameIdx;
+
+            // Cache it for instant future draws
+            cacheVideoFrame(video, frameIdx);
+
+            isSeekingRef.current = false;
+
+            // Process any queued seek
+            if (pendingSeekRef.current !== null) {
+                const next = pendingSeekRef.current;
+                pendingSeekRef.current = null;
+                isSeekingRef.current = true;
+                video.currentTime = next;
+            }
+        };
+
+        video.addEventListener('loadeddata', onLoadedData);
+        video.addEventListener('seeked', onSeeked);
+        video.load();
+
+        return () => {
+            video.removeEventListener('loadeddata', onLoadedData);
+            video.removeEventListener('seeked', onSeeked);
+            video.pause();
+            video.removeAttribute('src');
+            video.load();
+            videoRef.current = null;
+            videoReadyRef.current = false;
+        };
+    }, [drawToCanvas, cacheVideoFrame, progress]);
+
+    // SECONDARY video: caches frames in background without blocking scroll
+    useEffect(() => {
+        let cancelled = false;
+        const bgVideo = document.createElement('video');
+        bgVideo.src = VIDEO_URL;
+        bgVideo.muted = true;
+        bgVideo.playsInline = true;
+        bgVideo.preload = 'auto';
+        bgVideo.pause();
+
+        bgVideo.addEventListener('loadeddata', () => {
+            if (cancelled || !bgVideo.duration) return;
+
+            // Cache frames progressively: every 10th first, then fill gaps
+            (async () => {
+                // Pass 1: every 10th frame
+                for (let i = 0; i < TOTAL_FRAMES && !cancelled; i += 10) {
+                    if (!frameCacheRef.current.has(i)) {
+                        await seekAndCache(bgVideo, i);
+                    }
+                }
+                // Pass 2: every 3rd frame
+                for (let i = 0; i < TOTAL_FRAMES && !cancelled; i += 3) {
+                    if (!frameCacheRef.current.has(i)) {
+                        await seekAndCache(bgVideo, i);
+                    }
+                }
+                // Pass 3: all remaining
+                for (let i = 0; i < TOTAL_FRAMES && !cancelled; i++) {
+                    if (!frameCacheRef.current.has(i)) {
+                        await seekAndCache(bgVideo, i);
+                    }
+                }
+            })();
+        }, { once: true });
+
+        function seekAndCache(vid, frameIdx) {
+            return new Promise(resolve => {
+                if (cancelled || !vid.duration) { resolve(); return; }
+                const t = (frameIdx / (TOTAL_FRAMES - 1)) * vid.duration;
+                vid.addEventListener('seeked', () => {
+                    if (!cancelled) {
+                        cacheVideoFrame(vid, frameIdx);
+                    }
+                    setTimeout(resolve, 2);
+                }, { once: true });
+                vid.currentTime = t;
+            });
         }
-    };
 
-    useMotionValueEvent(progress, 'change', () => {
-        renderCurrentFrame();
+        bgVideo.load();
+
+        return () => {
+            cancelled = true;
+            bgVideo.pause();
+            bgVideo.removeAttribute('src');
+            bgVideo.load();
+            frameCacheRef.current.clear();
+        };
+    }, [cacheVideoFrame]);
+
+    // On scroll, draw the correct frame
+    useMotionValueEvent(progress, 'change', (v) => {
+        drawFrame(v);
     });
 
-    // Handle initial paint and resize
+    // Handle resize
     useEffect(() => {
         const handleResize = () => {
             if (canvasRef.current) {
                 canvasRef.current.width = window.innerWidth;
                 canvasRef.current.height = window.innerHeight;
-                renderCurrentFrame();
+                lastDrawnFrameRef.current = -1;
+                const p = progress.get ? progress.get() : 0;
+                drawFrame(p);
             }
         };
 
-        // Set up dimensions
         if (canvasRef.current) {
             canvasRef.current.width = window.innerWidth;
             canvasRef.current.height = window.innerHeight;
         }
 
-        // Paint immediately if images are ready
-        renderCurrentFrame();
-
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    }, [drawFrame, progress]);
 
     return (
         <motion.main
