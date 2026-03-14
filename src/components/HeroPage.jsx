@@ -27,6 +27,8 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
     const lastDrawnFrameRef = useRef(-1);
 
     const TOTAL_FRAMES = 431;
+    const MAX_CACHE_SIZE = 150; // Limit memory usage
+    const CACHE_WIDTH = 960;   // Cache at reduced resolution
     const VIDEO_URL = 'https://pub-5b73abe3c7c84cb182ef6b6155e55ce6.r2.dev/Video/VideoHeroNew.MP4';
 
     // Convert scroll progress to frame index
@@ -35,10 +37,10 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
         return Math.min(Math.floor(normalized * (TOTAL_FRAMES - 1)), TOTAL_FRAMES - 1);
     }, []);
 
-    // Draw a source (video or offscreen canvas) to the main canvas with object-cover
+    // Draw a source to the main canvas with object-cover sizing
     const drawToCanvas = useCallback((source, srcW, srcH) => {
         const canvas = canvasRef.current;
-        if (!canvas) return;
+        if (!canvas || !srcW || !srcH) return;
         const ctx = canvas.getContext('2d');
         const cw = canvas.width;
         const ch = canvas.height;
@@ -54,22 +56,30 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
         ctx.drawImage(source, ox, oy, dw, dh);
     }, []);
 
-    // Cache a video frame by drawing it to a small offscreen canvas (no CORS needed)
+    // Cache a video frame at reduced resolution to save memory
     const cacheVideoFrame = useCallback((video, frameIdx) => {
         if (frameCacheRef.current.has(frameIdx)) return;
+        // Evict oldest entries if cache is too large
+        if (frameCacheRef.current.size >= MAX_CACHE_SIZE) {
+            const firstKey = frameCacheRef.current.keys().next().value;
+            frameCacheRef.current.delete(firstKey);
+        }
+        const ratio = video.videoHeight / video.videoWidth;
+        const w = CACHE_WIDTH;
+        const h = Math.round(w * ratio);
         const oc = document.createElement('canvas');
-        oc.width = video.videoWidth;
-        oc.height = video.videoHeight;
-        oc.getContext('2d').drawImage(video, 0, 0);
+        oc.width = w;
+        oc.height = h;
+        oc.getContext('2d').drawImage(video, 0, 0, w, h);
         frameCacheRef.current.set(frameIdx, oc);
     }, []);
 
-    // Draw the best available frame
+    // Draw the best available frame for a given scroll progress
     const drawFrame = useCallback((p) => {
         const frameIdx = getFrameIndex(p);
         if (frameIdx === lastDrawnFrameRef.current) return;
 
-        // 1. Try cached frame (instant - no decode, no seek)
+        // 1. Try cached frame (instant)
         const cached = frameCacheRef.current.get(frameIdx);
         if (cached) {
             drawToCanvas(cached, cached.width, cached.height);
@@ -77,18 +87,22 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
             return;
         }
 
-        // 2. Show nearest cached frame while we wait for exact frame
-        for (let offset = 1; offset <= 15; offset++) {
+        // 2. Show nearest cached frame as placeholder
+        for (let offset = 1; offset <= 20; offset++) {
             const before = frameCacheRef.current.get(frameIdx - offset);
-            if (before) { drawToCanvas(before, before.width, before.height); lastDrawnFrameRef.current = frameIdx - offset; break; }
+            if (before) { drawToCanvas(before, before.width, before.height); break; }
             const after = frameCacheRef.current.get(frameIdx + offset);
-            if (after) { drawToCanvas(after, after.width, after.height); lastDrawnFrameRef.current = frameIdx + offset; break; }
+            if (after) { drawToCanvas(after, after.width, after.height); break; }
         }
 
-        // 3. Seek primary video to exact frame (async)
+        // 3. Seek video to get exact frame (async)
         const video = videoRef.current;
         if (video && videoReadyRef.current && video.duration) {
-            const t = (frameIdx / (TOTAL_FRAMES - 1)) * video.duration;
+            // Clamp to slightly before end to prevent glitch at last frame
+            const t = Math.min(
+                (frameIdx / (TOTAL_FRAMES - 1)) * video.duration,
+                video.duration - 0.01
+            );
             if (isSeekingRef.current) {
                 pendingSeekRef.current = t;
             } else {
@@ -98,37 +112,43 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
         }
     }, [getFrameIndex, drawToCanvas]);
 
-    // PRIMARY video: used for scroll-driven seeking
+    // Single video element for scroll-driven seeking
     useEffect(() => {
         const video = document.createElement('video');
         video.src = VIDEO_URL;
         video.muted = true;
         video.playsInline = true;
         video.preload = 'auto';
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
         video.pause();
         videoRef.current = video;
 
         const onLoadedData = () => {
             videoReadyRef.current = true;
-            // Draw initial frame
+            // Draw the initial frame
             const p = progress.get ? progress.get() : 0;
             const normalized = Math.min(Math.max(p / 0.30, 0), 1);
-            video.currentTime = normalized * video.duration;
+            video.currentTime = Math.min(normalized * video.duration, video.duration - 0.01);
         };
 
         const onSeeked = () => {
-            const frameIdx = Math.round((video.currentTime / video.duration) * (TOTAL_FRAMES - 1));
+            if (!video.duration || video.readyState < 2) return;
 
-            // Draw it
+            const frameIdx = Math.round(
+                Math.min(video.currentTime / video.duration, 1) * (TOTAL_FRAMES - 1)
+            );
+
+            // Draw the video frame to canvas
             drawToCanvas(video, video.videoWidth, video.videoHeight);
             lastDrawnFrameRef.current = frameIdx;
 
-            // Cache it for instant future draws
+            // Cache it at reduced resolution for instant future access
             cacheVideoFrame(video, frameIdx);
 
             isSeekingRef.current = false;
 
-            // Process any queued seek
+            // Process any queued seek from scrolling
             if (pendingSeekRef.current !== null) {
                 const next = pendingSeekRef.current;
                 pendingSeekRef.current = null;
@@ -137,81 +157,35 @@ const HeroContent = React.memo(({ progress, preloaderActive }) => {
             }
         };
 
+        const onError = () => {
+            // Retry loading after a delay
+            setTimeout(() => {
+                if (videoRef.current === video) {
+                    video.src = VIDEO_URL;
+                    video.load();
+                }
+            }, 2000);
+        };
+
         video.addEventListener('loadeddata', onLoadedData);
         video.addEventListener('seeked', onSeeked);
+        video.addEventListener('error', onError);
         video.load();
 
         return () => {
             video.removeEventListener('loadeddata', onLoadedData);
             video.removeEventListener('seeked', onSeeked);
+            video.removeEventListener('error', onError);
             video.pause();
             video.removeAttribute('src');
             video.load();
             videoRef.current = null;
             videoReadyRef.current = false;
-        };
-    }, [drawToCanvas, cacheVideoFrame, progress]);
-
-    // SECONDARY video: caches frames in background without blocking scroll
-    useEffect(() => {
-        let cancelled = false;
-        const bgVideo = document.createElement('video');
-        bgVideo.src = VIDEO_URL;
-        bgVideo.muted = true;
-        bgVideo.playsInline = true;
-        bgVideo.preload = 'auto';
-        bgVideo.pause();
-
-        bgVideo.addEventListener('loadeddata', () => {
-            if (cancelled || !bgVideo.duration) return;
-
-            // Cache frames progressively: every 10th first, then fill gaps
-            (async () => {
-                // Pass 1: every 10th frame
-                for (let i = 0; i < TOTAL_FRAMES && !cancelled; i += 10) {
-                    if (!frameCacheRef.current.has(i)) {
-                        await seekAndCache(bgVideo, i);
-                    }
-                }
-                // Pass 2: every 3rd frame
-                for (let i = 0; i < TOTAL_FRAMES && !cancelled; i += 3) {
-                    if (!frameCacheRef.current.has(i)) {
-                        await seekAndCache(bgVideo, i);
-                    }
-                }
-                // Pass 3: all remaining
-                for (let i = 0; i < TOTAL_FRAMES && !cancelled; i++) {
-                    if (!frameCacheRef.current.has(i)) {
-                        await seekAndCache(bgVideo, i);
-                    }
-                }
-            })();
-        }, { once: true });
-
-        function seekAndCache(vid, frameIdx) {
-            return new Promise(resolve => {
-                if (cancelled || !vid.duration) { resolve(); return; }
-                const t = (frameIdx / (TOTAL_FRAMES - 1)) * vid.duration;
-                vid.addEventListener('seeked', () => {
-                    if (!cancelled) {
-                        cacheVideoFrame(vid, frameIdx);
-                    }
-                    setTimeout(resolve, 2);
-                }, { once: true });
-                vid.currentTime = t;
-            });
-        }
-
-        bgVideo.load();
-
-        return () => {
-            cancelled = true;
-            bgVideo.pause();
-            bgVideo.removeAttribute('src');
-            bgVideo.load();
+            isSeekingRef.current = false;
+            pendingSeekRef.current = null;
             frameCacheRef.current.clear();
         };
-    }, [cacheVideoFrame]);
+    }, [drawToCanvas, cacheVideoFrame, progress]);
 
     // On scroll, draw the correct frame
     useMotionValueEvent(progress, 'change', (v) => {
