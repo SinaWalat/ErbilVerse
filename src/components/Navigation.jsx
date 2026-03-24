@@ -7,41 +7,40 @@ const Navigation = () => {
     const [menuOpen, setMenuOpen] = useState(false);
     const [isOverLightSection, setIsOverLightSection] = useState(false);
     
-    // We want the Header to be WHITE during the Hero Video section (progress < 0.30)
-    // and then revert back to its normal color afterward.
-    const [isVideoActive, setIsVideoActive] = useState(true);
-    const { scrollYProgress } = useScroll();
-    
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
-        if (latest < 0.30) {
-            setIsVideoActive(true);
-        } else {
-            setIsVideoActive(false);
-        }
-    });
-
     const location = useLocation();
 
     useEffect(() => {
-        // Only run observer on the home page where sections exist
         if (location.pathname !== '/') {
             setIsOverLightSection(false);
             return;
         }
 
         const handleScroll = () => {
-            // Find all elements that have the light background class
-            const lightSections = document.querySelectorAll('.bg-\\[\\#fcfcfc\\]');
-            let foundLightSectionUnderHeader = false;
+            const y = window.scrollY;
+            const vh = window.innerHeight;
+            
+            // 1. IntroSequence spans 600vh.
+            // Hero and SecondSection (Dark) are from 0 to ~2.6vh.
+            // HorizontalSection (Light/White) fades in around 2.4 - 3.0vh and lasts until 6.0vh.
+            if (y >= 2.6 * vh && y < 5.9 * vh) {
+                 setIsOverLightSection(true);
+                 return;
+            } else if (y < 2.6 * vh) {
+                 setIsOverLightSection(false);
+                 return;
+            }
 
-            // Header is fixed at the top, let's check a point a bit below the top edge
-            // where the logo and menu text actually sit.
+            // 2. Beyond IntroSequence, detect normal sections
+            // Use specific selectors to avoid deeply nested overflowing white cards.
+            const lightSections = document.querySelectorAll('section.bg-\\[\\#fcfcfc\\], section.bg-white, section.bg-gray-50, .bg-white.h-full.w-full');
+            let foundLightSectionUnderHeader = false;
             const headerCheckY = 50;
 
             lightSections.forEach(section => {
+                // Ignore fixed/sticky containers from IntroSequence just in case
+                if (section.closest('.sticky') || section.closest('.fixed')) return;
+
                 const rect = section.getBoundingClientRect();
-                // If the top of the light section is above our check line AND
-                // the bottom of the light section is below our check line, we are over it.
                 if (rect.top <= headerCheckY && rect.bottom >= headerCheckY) {
                     foundLightSectionUnderHeader = true;
                 }
@@ -51,18 +50,14 @@ const Navigation = () => {
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
-
-        // Initial check
         handleScroll();
 
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+        return () => window.removeEventListener('scroll', handleScroll);
     }, [location.pathname]);
 
-    // Color states: White during video, otherwise brown
+    // Color states: White over dark sections, Brown over light sections
     // 150ms smooth transition applied to className below
-    const isWhiteText = isVideoActive;
+    const isWhiteText = !isOverLightSection;
     
     // We want the Close button to inherit the environment's text color.
     // So if the menu is open, its text is just slightly faded, but inherits the base color.
@@ -77,7 +72,7 @@ const Navigation = () => {
     // For the logo, we use CSS filter to turn it brown (#74573e) when NOT in video
     // Otherwise keep it white (or drop the filter to show original white SVG)
     // filter: brightness(0) saturate(100%) invert(35%) sepia(21%) saturate(986%) hue-rotate(345deg) brightness(97%) contrast(85%);
-    const logoFilter = !menuOpen && !isVideoActive
+    const logoFilter = !menuOpen && !isWhiteText
         ? "brightness(0) saturate(100%) invert(35%) sepia(21%) saturate(986%) hue-rotate(345deg) brightness(97%) contrast(85%)"
         : "none";
 

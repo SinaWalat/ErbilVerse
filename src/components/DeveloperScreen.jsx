@@ -41,10 +41,6 @@ const DeveloperScreen = () => {
     return (
         <section ref={containerRef} className="relative w-full py-32 md:py-48 bg-[#111638] text-white overflow-hidden flex flex-col items-center justify-center">
 
-            {/* Ambient glows */}
-            <div className="absolute top-1/4 left-[-10%] w-[500px] h-[500px] rounded-full bg-white/5 blur-[150px] pointer-events-none" />
-            <div className="absolute bottom-[20%] right-[-5%] w-[600px] h-[600px] rounded-full bg-[#74573e]/[0.08] blur-[200px] pointer-events-none" />
-
             {/* Elegant Parallax Background Elements */}
             <motion.div style={{ y: yBg }} className="absolute inset-0 pointer-events-none opacity-20">
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent" />

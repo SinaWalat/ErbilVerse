@@ -105,7 +105,7 @@ const PropertyOverviewSection = () => {
                                 transition={{ duration: 0.6, delay: 0.1 * i, ease: [0.16, 1, 0.3, 1] }}
                                 onMouseEnter={() => setActiveCard(field.id)}
                                 onMouseLeave={() => setActiveCard(null)}
-                                className={`group relative p-8 md:p-9 cursor-default transition-all duration-500 border-r border-b border-[#111638]/[0.06] ${isActive ? 'bg-[#111638]' : 'bg-white'}`}
+                                className={`group relative p-8 md:p-9 cursor-default transition-colors duration-500 border-r border-b border-[#111638]/[0.06] ${isActive ? 'bg-[#111638]' : 'bg-white'}`}
                                 style={{
                                     borderRight: (i === 3) ? 'none' : undefined,
                                 }}

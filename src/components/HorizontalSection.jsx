@@ -15,7 +15,7 @@ const Card = ({ title, description, badge, children, icon, isMobile }) => (
                     {React.cloneElement(icon, { className: "w-5 h-5 md:w-6 md:h-6" })}
                 </div>
                 <h3 className="text-2xl md:text-5xl font-bold text-[#111638] tracking-tighter mb-3 md:mb-4 leading-none uppercase">{title}</h3>
-                <p className="text-zinc-400 text-xs md:text-base leading-relaxed font-medium mb-6 md:mb-0">{description}</p>
+                <p className="text-zinc-400 text-xs md:text-base leading-relaxed font-light mb-6 md:mb-0">{description}</p>
             </div>
 
             {!isMobile && (
@@ -65,8 +65,8 @@ const HorizontalSection = ({ progress }) => {
     }, []);
 
     // Generate a local progress for the sequence that starts AFTER
-    // the global progress reaches 0.65
-    const localProgress = useTransform(progress, [0.65, 1], [0, 1]);
+    // the global progress reaches 0.45
+    const localProgress = useTransform(progress, [0.45, 1], [0, 1]);
 
     // Timings for stacking sequence - spreading them out more
     const timings = {
@@ -77,19 +77,19 @@ const HorizontalSection = ({ progress }) => {
         introFadeOut: [0.3, 0.4],
 
         card1: {
-            enter: [0.35, 0.45],
-            stack: [0.5, 0.6] // When card 2 enters
+            enter: [0.3, 0.45],
+            stack: [0.45, 0.6] // When card 2 enters
         },
         card2: {
-            enter: [0.5, 0.6],
-            stack: [0.65, 0.75] // When card 3 enters
+            enter: [0.45, 0.6],
+            stack: [0.6, 0.75] // When card 3 enters
         },
         card3: {
-            enter: [0.65, 0.75],
-            stack: [0.8, 0.9] // When card 4 enters
+            enter: [0.6, 0.75],
+            stack: [0.75, 0.9] // When card 4 enters
         },
         card4: {
-            enter: [0.8, 0.9]
+            enter: [0.75, 0.9]
         }
     };
 
@@ -97,8 +97,8 @@ const HorizontalSection = ({ progress }) => {
     const introLabel = "The Platform Ecosystem".split(" ");
     const descriptionWords = "Discover the layers that make ERBILVERSE a living digital city.".split(" ");
 
-    // Fade the white background in as the entire global track transitions from 0.6 to 0.7
-    const sectionOpacity = useTransform(progress, [0.6, 0.7], [0, 1]);
+    // Fade the white background in as the entire global track transitions from 0.4 to 0.5
+    const sectionOpacity = useTransform(progress, [0.4, 0.5], [0, 1]);
 
     // Intro section transforms
     const introOpacity = useTransform(localProgress, timings.introFadeOut, [1, 0]);
@@ -174,7 +174,7 @@ const HorizontalSection = ({ progress }) => {
                             className="w-16 h-1 bg-[#74573e] mb-8"
                         ></motion.div>
 
-                        <p className="text-zinc-400 text-lg max-w-sm leading-relaxed">
+                        <p className="text-zinc-400 text-lg max-w-sm leading-relaxed font-light">
                             {descriptionWords.map((word, i) => (
                                 <ScrubbedWord
                                     key={i}

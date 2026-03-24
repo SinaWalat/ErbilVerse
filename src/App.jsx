@@ -25,18 +25,18 @@ function IntroSequence({ preloaderActive }) {
     target: sequenceRef,
     offset: ['start start', 'end end'],
   });
-  // Hero plays from 0 to 0.30
-  const heroZ = useTransform(scrollYProgress, [0, 0.3, 0.35], [10, 10, 0]);
-  const heroDisplay = useTransform(scrollYProgress, (v) => v < 0.4 ? 'block' : 'none');
+  // Hero fades out starting almost immediately
+  const heroZ = useTransform(scrollYProgress, [0, 0.05, 0.15], [10, 10, 0]);
+  const heroDisplay = useTransform(scrollYProgress, (v) => v < 0.2 ? 'block' : 'none');
 
-  const secondZ = useTransform(scrollYProgress, [0, 0.3, 0.35, 0.7, 0.75], [0, 0, 20, 20, 0]);
-  const secondDisplay = useTransform(scrollYProgress, (v) => v > 0.3 && v < 0.75 ? 'block' : 'none');
+  const secondZ = useTransform(scrollYProgress, [0, 0.1, 0.15, 0.45, 0.5], [0, 0, 20, 20, 0]);
+  const secondDisplay = useTransform(scrollYProgress, (v) => v > 0.05 && v < 0.5 ? 'block' : 'none');
 
-  const horizontalZ = useTransform(scrollYProgress, [0, 0.65, 0.7], [0, 0, 30]);
-  const horizontalDisplay = useTransform(scrollYProgress, (v) => v > 0.6 ? 'block' : 'none');
+  const horizontalZ = useTransform(scrollYProgress, [0, 0.4, 0.45], [0, 0, 30]);
+  const horizontalDisplay = useTransform(scrollYProgress, (v) => v > 0.35 ? 'block' : 'none');
 
   return (
-    <section ref={sequenceRef} className="relative h-[1200vh]" style={{ touchAction: 'pan-y' }}>
+    <section ref={sequenceRef} className="relative h-[600vh]" style={{ touchAction: 'pan-y' }}>
       <div className="sticky top-0 h-[100dvh] overflow-hidden">
         <motion.div style={{ zIndex: heroZ, display: heroDisplay }} className="absolute inset-0 pointer-events-none">
           <HeroPage progress={scrollYProgress} preloaderActive={preloaderActive} />

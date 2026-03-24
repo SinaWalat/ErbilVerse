@@ -159,7 +159,7 @@ const UrbanActivityScreen = () => {
                                             const { cx, cy, index } = props;
                                             if (index !== chartData.length - 1) return null;
                                             return (
-                                                <g key={`pin-${index}`}>
+                                                <g key={`pin - ${ index } `}>
                                                     <circle cx={cx} cy={cy} r="8" fill="#74573e" opacity="0.15">
                                                         <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite" />
                                                         <animate attributeName="opacity" values="0.15;0.05;0.15" dur="2s" repeatCount="indefinite" />
@@ -206,11 +206,11 @@ const UrbanActivityScreen = () => {
                                 >
                                     {[...transactions, ...transactions].map((tx, index) => (
                                         <div
-                                            key={`${tx.id}-${index}`}
+                                            key={`${ tx.id } -${ index } `}
                                             className="bg-white rounded-2xl p-5 shadow-sm border border-[#111638]/5 flex justify-between items-center group hover:bg-zinc-50/50 transition-colors cursor-pointer"
                                         >
                                             <div className="flex items-center gap-4">
-                                                <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${tx.type === 'Ingest' ? 'bg-[#74573e]/10 text-[#74573e] group-hover:bg-[#74573e]/20' : 'bg-zinc-50 text-zinc-500 group-hover:bg-zinc-100'}`}>
+                                                <div className={`w - 12 h - 12 rounded - full flex items - center justify - center transition - colors ${ tx.type === 'Ingest' ? 'bg-[#74573e]/10 text-[#74573e] group-hover:bg-[#74573e]/20' : 'bg-zinc-50 text-zinc-500 group-hover:bg-zinc-100' } `}>
                                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={tx.type === 'Ingest' ? "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" : "M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"} /></svg>
                                                 </div>
                                                 <div>
@@ -220,7 +220,7 @@ const UrbanActivityScreen = () => {
                                             </div>
                                             <div className="text-right flex flex-col items-end">
                                                 <p className="text-lg font-medium text-[#111638] uppercase text-xs opacity-60 tracking-tighter">{tx.level} Level</p>
-                                                <div className={`text-[10px] font-medium uppercase tracking-wider mt-1 px-2 py-0.5 rounded-sm ${tx.status === 'Completed' ? 'bg-green-100 text-green-700' : tx.status === 'Processing' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'}`}>
+                                                <div className={`text - [10px] font - medium uppercase tracking - wider mt - 1 px - 2 py - 0.5 rounded - sm ${ tx.status === 'Completed' ? 'bg-green-100 text-green-700' : tx.status === 'Processing' ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700' } `}>
                                                     {tx.status}
                                                 </div>
                                             </div>
@@ -251,11 +251,11 @@ const UrbanActivityScreen = () => {
                                 {activity.map((act, index) => (
                                     <motion.div
                                         key={index}
-                                        initial={{ opacity: 0, x: 15 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
+                                        initial={{ opacity: 0 }}
+                                        whileInView={{ opacity: 1 }}
                                         viewport={{ once: true }}
                                         transition={{ duration: 0.5, delay: 0.3 + (index * 0.08) }}
-                                        className="group flex items-center gap-4 p-4 rounded-xl bg-white/60 border border-[#111638]/[0.04] hover:bg-[#111638] hover:border-[#111638] transition-all duration-400 cursor-pointer"
+                                        className="group flex items-center gap-4 p-4 rounded-xl bg-white/60 border border-[#111638]/[0.04] hover:bg-[#111638] hover:border-[#111638] transition-colors duration-400 cursor-pointer"
                                     >
                                         {/* Avatar circle */}
                                         <div className="w-9 h-9 rounded-full bg-[#111638]/[0.06] flex items-center justify-center shrink-0 group-hover:bg-white/[0.1] transition-colors duration-400">
